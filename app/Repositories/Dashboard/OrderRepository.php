@@ -1,0 +1,90 @@
+<?php
+
+namespace App\Repositories\Dashboard ;
+
+use App\Events\OrderCreated;
+use App\Interfaces\OrderRepositoryInterface;
+use App\Models\Cart;
+use App\Models\Order;
+use App\Services\Orders\OrderServices;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+
+class OrderRepository implements OrderRepositoryInterface
+{
+    protected $orderService , $cartRepository , $orderItemRepository ;
+
+    public function __construct(OrderServices $orderService , CartRepository $cartRepository , OrderItemRepository $orderItemRepository) {
+        $this->orderService = $orderService;
+        $this->cartRepository = $cartRepository ;
+        $this->orderItemRepository = $orderItemRepository ;
+
+    }
+
+    public function getOrders($request)
+    {
+        $orders  = Order::filter($request)->where('admin_id', 1 )->latest()->paginate();
+        return $orders ;
+    }
+
+    public function create($request)
+    {
+        DB::beginTransaction() ;
+        try{
+            $carts = $this->cartRepository->getCarts() ;
+
+            if ($carts->isEmpty()) {
+                throw new \Exception('Cart is empty');
+            }
+
+            $subTotal = $this->orderService->subTotalOrder($carts) ;
+            $total = $this->orderService->totalOrder($subTotal);
+
+            $auth  = ['user_id' => Auth::guard('web')->user()->id , 'admin_id' => Auth::guard('admin')->user()->id ] ;
+            $order = Order::create([
+                'user_id' => $auth['user_id'] ?? null ,
+                'admin_id' => $auth['admin_id'] ?? null ,
+                'type' => 'onsite' ,
+                'subtotal' => $subTotal ,
+                'tax' => config('order.tax') ,
+                'delivery_fee' => config('order.delivery_fee') ,
+                'total' => $total
+            ]);
+
+            $this->orderItemRepository->create($order , $carts);
+            $this->cartRepository->deleteAll($carts) ;
+            DB::commit() ;
+
+            return $order ;
+        }
+        catch(\Exception $e)
+        {
+            DB::rollBack() ;
+            throw  $e ;
+        }
+    }
+
+    public function getOrder($order)
+    {
+        if(! is_object($order)) // $order here is order_id
+        {
+            $order = Order::with('orderItems:order_id,meal_title,price,quantity,total')->findorfail($order) ;
+        }
+        $order->load(['orderItems:order_id,meal_title,price,quantity,total']) ;
+        return $order ;
+    }
+
+    public function update($request , $order)
+    {
+
+    }
+
+    public function delete(Order $order)
+    {
+        $order->delete() ;
+    }
+}
+
+
+
+

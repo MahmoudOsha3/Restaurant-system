@@ -22,12 +22,16 @@ class AdminRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255' ,
-            'email' => 'required|unique:admins,email,' . $this->route('admin') ,
+            'email' => [
+                'required',
+                'email',
+                Rule::unique('admins')->ignore($this->route('admin')),
+            ],
             'password' => 'required|string',
             'image' => 'nullable|image' ,
             'role_id' => 'required|exists:roles,id' ,
             'address' => 'required|string|max:255' ,
-            // 'phone' => 'required|digits:11',
+            'phone' => 'required|digits:11',
         ];
     }
 }

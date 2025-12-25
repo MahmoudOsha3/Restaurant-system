@@ -2,9 +2,9 @@
 
 namespace App\Providers;
 
-use App\Interfaces\{CartRepositoryInterface , MealRepositoryInterface , OrderRepositoryInterface ,OrderItemRepositoryInterface};
+use App\Interfaces\{CartRepositoryInterface , InvoiceRepositoryInterface, MealRepositoryInterface , OrderRepositoryInterface ,OrderItemRepositoryInterface};
 use App\Repositories\{MealRepository};
-use App\Repositories\Dashboard\{CartRepository , OrderRepository , OrderItemRepository};
+use App\Repositories\Dashboard\{CartRepository , InvoiceRepository, OrderRepository , OrderItemRepository};
 
 use Illuminate\Support\ServiceProvider;
 
@@ -21,6 +21,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(CartRepositoryInterface::class , CartRepository::class ) ;
         $this->app->bind(OrderRepositoryInterface::class , OrderRepository::class ) ;
         $this->app->bind(OrderItemRepositoryInterface::class , OrderItemRepository::class ) ;
+        $this->app->bind(InvoiceRepositoryInterface::class , InvoiceRepository::class ) ;
+
 
     }
 

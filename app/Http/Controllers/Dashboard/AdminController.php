@@ -14,7 +14,7 @@ class AdminController extends Controller
     use ManageApiTrait ;
     public function index()
     {
-        $admins = Admin::paginate(10) ;
+        $admins = Admin::with('role')->paginate(10) ;
         return $this->successApi($admins , 'Admins fetched successfully') ;
 
     }

@@ -23,7 +23,8 @@ class OrderRepository implements OrderRepositoryInterface
 
     public function getOrders($request)
     {
-        $orders  = Order::filter($request)->where('admin_id', 1 )->latest()->paginate();
+        $orders  = Order::with(['orderItems:id,order_id,meal_title,price,quantity,total' , 'admin:id,name'])
+            ->filter($request)->latest()->paginate(10);
         return $orders ;
     }
 
@@ -40,10 +41,10 @@ class OrderRepository implements OrderRepositoryInterface
             $subTotal = $this->orderService->subTotalOrder($carts) ;
             $total = $this->orderService->totalOrder($subTotal);
 
-            $auth  = ['user_id' => Auth::guard('web')->user()->id , 'admin_id' => Auth::guard('admin')->user()->id ] ;
+            // $auth  = ['user_id' => Auth::guard('web')->user()->id , 'admin_id' => Auth::guard('admin')->user()->id ] ;
             $order = Order::create([
-                'user_id' => $auth['user_id'] ?? null ,
-                'admin_id' => $auth['admin_id'] ?? null ,
+                'user_id' =>  null ,
+                'admin_id' => 1 ,
                 'type' => 'onsite' ,
                 'subtotal' => $subTotal ,
                 'tax' => config('order.tax') ,
@@ -82,6 +83,11 @@ class OrderRepository implements OrderRepositoryInterface
     public function delete(Order $order)
     {
         $order->delete() ;
+    }
+
+    public function countOrders()
+    {
+        return Order::count() ;
     }
 }
 

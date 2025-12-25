@@ -16,4 +16,7 @@ interface OrderRepositoryInterface
 
     public function delete(Order $cart) ;
 
+    public function countOrders();
+
+
 }

@@ -2,10 +2,10 @@
 
 return [
     'dashboard' => [
-        'route' => '#' ,
+        'route' => '/' ,
         'icon' => 'fas fa-chart-pie' ,
         'label' => 'لوحة التحكم ',
-        'active' => ['dashboard' , 'dashboard.edit'] ,
+        'active' => ['/'] ,
         'permission' => '' ,
     ] ,
     'category' => [
@@ -23,9 +23,37 @@ return [
         'permission' => '' ,
     ] ,
 
-    // 'roles' => '' ,
-    // 'admins' => '' ,
-    // 'orders' => '' ,
-    // 'payments' => '' ,
+    'orders' => [
+        'route' => '/orders' ,
+        'icon' => 'fas fa-desktop' ,
+        'label' => 'مراقبة الطلبات ',
+        'active' => ['orders']  ,
+        'permission' => '' ,
+    ] ,
+
+
+    'admins' => [
+        'route' => '/admins' ,
+        'icon' => 'fas fa-users' ,
+        'label' => 'المواظفين',
+        'active' => ['admins']  ,
+        'permission' => '' ,
+    ] ,
+
+    'roles' => [
+        'route' => '/roles' ,
+        'icon' => 'fas fa-user-shield' ,
+        'label' => 'الادوار والصلاحيات',
+        'active' => ['roles']  ,
+        'permission' => '' ,
+    ] ,
+    'invoice' => [
+        'route' => '/invoices' ,
+        'icon' => 'fas fa-receipt' ,
+        'label' => 'إدارة المصاريف والفواتير',
+        'active' => ['invoices']  ,
+        'permission' => '' ,
+    ] ,
+
 
 ] ;

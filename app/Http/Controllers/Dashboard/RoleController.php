@@ -15,8 +15,9 @@ class RoleController extends Controller
     use ManageApiTrait ;
     public function index()
     {
-        $roles = Role::all() ;
-        return $this->successApi($roles , 'Roles fetched successfully') ;
+        $data['roles'] = Role::with('permissions')->get() ;
+        $data['permissions'] = config('permission') ;
+        return $this->successApi($data , 'Roles fetched successfully') ;
     }
 
     public function store(RoleRequest $request)

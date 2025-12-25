@@ -19,8 +19,17 @@ class OrderController extends Controller
 
     public function index(Request $request)
     {
+        $orders  = Order::whereDate('created_at' , today() )->with(['orderItems:id,order_id,meal_title,price,quantity,total' , 'admin:id,name'])
+            ->filter($request)->latest()->paginate();
+        $orders['status'] = ['dwmqo' , 'sam'] ;
         $orders = $this->orderRepository->getOrders($request);
-        return $this->successApi($orders  , 'My Orders fetched successfully');
+        return $this->successApi($orders   , 'My Orders fetched successfully');
+        // return Order::whereDate('created_at' , today() )->get() ;
+
+    }
+
+    public function ordersDay()
+    {
     }
 
     public function store(Request $request)

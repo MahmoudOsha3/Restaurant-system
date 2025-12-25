@@ -29,6 +29,14 @@ class Order extends Model
         $builder->when($request->order_number , function ($builder, $order_number){
             $builder->where('order_number' ,'LIKE' , "%{$order_number}%") ;
         });
+
+        $builder->when($request->filled('from_date') && $request->filled('to_date') , 
+            function($builder) use ($request){
+                $from_date = Carbon::parse($request->from_date)->startOfDay() ;
+                $to_date = Carbon::parse($request->to_date)->endOfDay();
+                
+                $builder->whereBetween('created_at' , [$from_date , $to_date]) ;
+        }) ;
     }
 
 

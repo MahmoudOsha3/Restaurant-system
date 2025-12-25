@@ -45,6 +45,11 @@ class MealRepository implements MealRepositoryInterface
         $this->imageServices->delete($meal->image) ;
         $meal->delete() ;
     }
+
+    public function countMeals()
+    {
+        return Meal::count() ;
+    }
 }
 
 

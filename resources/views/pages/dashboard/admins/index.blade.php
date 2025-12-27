@@ -8,23 +8,23 @@
         :root { --primary: #e67e22; --secondary: #2c3e50; --success: #27ae60; --danger: #e74c3c; --info: #3498db; }
 
         /* تنسيق الترقيم الصفحي (نفس الكود السابق) */
-        .pagination-container { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            margin-top: 20px; 
-            background: white; 
-            padding: 15px; 
-            border-radius: 12px; 
+        .pagination-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
-        .page-link { 
-            padding: 8px 15px; 
-            border: 1px solid #eee; 
-            background: white; 
-            cursor: pointer; 
-            border-radius: 6px; 
-            margin: 0 2px; 
+        .page-link {
+            padding: 8px 15px;
+            border: 1px solid #eee;
+            background: white;
+            cursor: pointer;
+            border-radius: 6px;
+            margin: 0 2px;
             transition: 0.3s;
         }
         .page-link.active { background: var(--primary); color: white; border-color: var(--primary); }
@@ -126,6 +126,7 @@
     let adminsData = [];
     let rolesList = [];
     let currentP = 1;
+    let token = localStorage.getItem('admin_token')
 
     $(document).ready(function() {
         fetchAdmins(1);
@@ -133,9 +134,9 @@
 
         $('#searchInput').on('input', function() {
             const query = $(this).val().toLowerCase();
-            const filtered = adminsData.filter(a => 
-                a.name.toLowerCase().includes(query) || 
-                a.email.toLowerCase().includes(query) || 
+            const filtered = adminsData.filter(a =>
+                a.name.toLowerCase().includes(query) ||
+                a.email.toLowerCase().includes(query) ||
                 (a.phone && a.phone.includes(query))
             );
             renderTable(filtered);
@@ -147,6 +148,9 @@
         $.ajax({
             url: `/api/admins?page=${page}`,
             method: 'GET',
+            headers : {
+                'Authorization': 'Bearer ' + token,
+            } ,
             success: function(res) {
                 adminsData = res.data.data;
                 renderTable(adminsData);
@@ -157,8 +161,11 @@
 
     function fetchRoles() {
         $.ajax({
-            url: '/api/role',
+            url: '/api/get/roles',
             method: 'GET',
+            headers : {
+                'Authorization': 'Bearer ' + token,
+            } ,
             success: function(res) {
                 rolesList = res.data;
                 let options = '<option value="">اختر صلاحية</option>';
@@ -194,15 +201,15 @@
     function renderPagination(meta) {
         const links = $('#paginationLinks').empty();
         $('#paginationInfo').text(`عرض ${meta.from || 0}-${meta.to || 0} من ${meta.total} مستخدم`);
-        
+
         links.append(`<button class="page-link" ${meta.current_page === 1 ? 'disabled' : ''} onclick="fetchAdmins(${meta.current_page - 1})">السابق</button>`);
-        
+
         for (let i = 1; i <= meta.last_page; i++) {
             if (i === 1 || i === meta.last_page || (i >= meta.current_page - 1 && i <= meta.current_page + 1)) {
                 links.append(`<button class="page-link ${i === meta.current_page ? 'active' : ''}" onclick="fetchAdmins(${i})">${i}</button>`);
             }
         }
-        
+
         links.append(`<button class="page-link" ${meta.current_page === meta.last_page ? 'disabled' : ''} onclick="fetchAdmins(${meta.current_page + 1})">التالي</button>`);
     }
 

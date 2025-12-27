@@ -136,6 +136,7 @@
 <script>
     let meals = [];
     let categories = [] ;
+    let token = localStorage.getItem('admin_token') ;
     let categoriesView = $('#mealCategoryId') ;
 
     $(document).ready(function() {
@@ -157,6 +158,7 @@
             method : "GET" ,
             headers : {
                 'Accept' : 'application/json' ,
+                'Authorization': 'Bearer ' + token,
             } ,
             success : function(response){
                 meals = response.data.data ; // paginate
@@ -176,6 +178,8 @@
                 method : "GET" ,
                 headers : {
                     'Accept' : 'application/json' ,
+                    'Authorization': 'Bearer ' + token,
+
                 } ,
                 success : function(response){
                     categories = response.data ; // paginate
@@ -280,8 +284,10 @@
         $.ajax({
             url: id ? '/api/meal/' + id : '/api/meal',
             type: 'POST' ,
-            headers : {'Accept' : 'application/json',
+            headers : {
+                'Accept' : 'application/json',
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                'Authorization': 'Bearer ' + token,
             } ,
             data:formData,
             processData: false,
@@ -321,7 +327,10 @@
         $.ajax({
             url : "/api/meal/" + id ,
             method : "DELETE" ,
-            headers : {'Accept' : 'application/json' } ,
+            headers : {
+                'Accept' : 'application/json',
+                'Authorization': 'Bearer ' + token,
+            } ,
             success : function(){
                 meals = meals.filter(meal => meal.id != id) ;
                 fetchMeals() ;

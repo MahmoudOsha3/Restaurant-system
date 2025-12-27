@@ -45,4 +45,10 @@ class RoleController extends Controller
         $role->delete();
         return $this->successApi(null , 'Role delete successfully') ;
     }
+
+    public function getRoles()
+    {
+        $roles = Role::all() ;
+        return $this->successApi($roles , 'Roles fetched successfully ') ;
+    }
 }

@@ -6,20 +6,20 @@
     <link rel="stylesheet" href="{{ asset('css/dashboard/meal.css') }}">
     <style>
         :root { --primary: #e67e22; --secondary: #2c3e50; --success: #27ae60; --danger: #e74c3c; --bg: #f8f9fa; }
-        
+
         /* Grid الصلاحيات */
-        .perm-grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); 
-            gap: 15px; 
-            margin-top: 20px; 
-            max-height: 400px; 
+        .perm-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+            max-height: 400px;
             overflow-y: auto;
             padding: 10px;
         }
 
         .perm-item {
-            background: white; padding: 15px; border-radius: 10px; display: flex; align-items: center; 
+            background: white; padding: 15px; border-radius: 10px; display: flex; align-items: center;
             justify-content: space-between; border: 1px solid #ddd; transition: 0.3s; cursor: pointer;
         }
         .perm-item:hover { border-color: var(--primary); background: #fffbf7; }
@@ -94,6 +94,7 @@
     let allRoles = [];
     let allPermissionsMap = {}; // لتخزين الصلاحيات الشاملة { "meal.view": "Meals View" }
     let selectedPermissions = []; // هنخزن فيها الـ slugs المختارة
+    let token = localStorage.getItem('admin_token') ;
 
     $(document).ready(function() {
         fetchRolesData();
@@ -112,10 +113,13 @@
         $.ajax({
             url: 'api/role',
             method: 'GET',
+            headers : {
+                'Authorization': 'Bearer ' + token,
+            } ,
             success: function(res) {
-                allRoles = res.data.roles; 
-                allPermissionsMap = res.data.permissions; 
-                
+                allRoles = res.data.roles;
+                allPermissionsMap = res.data.permissions;
+
                 renderRolesTable(allRoles);
                 renderPermissionsGrid(allPermissionsMap);
             }
@@ -179,7 +183,7 @@
             $('#editorTitle').text('تعديل صلاحيات: ' + role.name);
             $('#roleId').val(role.id);
             $('#roleName').val(role.name);
-            
+
             // هنا بنشوف الصلاحيات اللي الـ authorize بتاعها "allow"
             role.permissions.forEach(p => {
                 if(p.authorize === 'allow') {
@@ -207,7 +211,7 @@ function saveRole() {
     // بناء كائن الصلاحيات: نلف على كل الصلاحيات المتاحة في السيستم
     // لو الـ slug موجود في selectedPermissions نبعت allow، غير كدة deny
     let permissionsPayload = {};
-    
+
     Object.keys(allPermissionsMap).forEach(slug => {
         permissionsPayload[slug] = selectedPermissions.includes(slug) ? 'allow' : 'deny';
     });
@@ -220,13 +224,16 @@ function saveRole() {
 
     const url = id ? `/api/role/${id}` : '/api/role';
     // في الـ Laravel الـ Update بيفضل يتبعت POST مع إضافة _method: 'PUT'
-    const method = 'POST'; 
+    const method = 'POST';
     if(id) data['_method'] = 'PUT';
 
     $.ajax({
         url: url,
         method: method,
         data: data,
+        headers : {
+            'Authorization': 'Bearer ' + token,
+        } ,
         success: function(res) {
             toastr.success('تم حفظ البيانات بنجاح');
             backToList();

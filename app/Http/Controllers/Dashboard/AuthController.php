@@ -13,17 +13,36 @@ class AuthController extends Controller
 {
     use ManageApiTrait ;
 
-    public function generateToken(Request $request)
+    public function loginView()
     {
-        $request->validate(['email' => 'required|email|exists:admins,email' , 'password' => 'required|string|min:8']) ;
-        $admin = Admin::where('email' , $request->email)->first() ;
-        if(! Hash::check($request->password ,$admin->password))
-        {
-            return $this->faildApi('Invalid credentials' , 401 ) ;
+        return view('pages.login') ;
+    }
+
+    public function login(Request $request)
+    {
+        $credentials = $request->validate([
+            'email' => 'required|email|exists:admins,email',
+            'password' => 'required|string|min:8',
+        ]);
+
+        $admin = Admin::where('email', $credentials['email'])->first();
+
+        if (!Hash::check($credentials['password'], $admin->password)) {
+            return back()->withErrors(
+                ['email' => 'البريد الإلكتروني أو كلمة المرور غير صحيحة'])
+                        ->withInput();
         }
-        $admin->tokens()->delete(); // if exists token before
-        $token = $admin->createToken('admin-token')->plainTextToken ;
-        $data = ['token' => $token ,'admin' => $admin] ;
-        return $this->successApi($data , 'Authentication successfully') ;
+        Auth::guard('admin')->login($admin);
+        $request->session()->regenerate();
+        return redirect()->intended('/') ;
+    }
+
+
+    public function logout(Request $request)
+    {
+        Auth::guard('admin')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect()->route('login') ;
     }
 }

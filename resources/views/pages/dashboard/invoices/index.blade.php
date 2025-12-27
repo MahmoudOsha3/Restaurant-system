@@ -140,6 +140,7 @@
 
 @section('js')
 <script>
+    let token = localStorage.getItem('admin_token') ;
     $(document).ready(function() {
         fetchExpenses();
 
@@ -162,6 +163,9 @@
         $.ajax({
             url: '/api/invoice',
             method: 'GET',
+            headers : {
+                'Authorization': 'Bearer ' + token,
+            } ,
             success: function(res) {
                 renderTable(res.data);
                 calculateTotal(res.data);
@@ -222,6 +226,9 @@
             url: url,
             method: method,
             data: data,
+            headers : {
+                'Authorization': 'Bearer ' + token,
+            } ,
             success: function() {
                 toastr.success('تم الحفظ بنجاح');
                 resetForm();
@@ -249,6 +256,9 @@
             $.ajax({
                 url: `/api/invoice/${id}`,
                 method: 'DELETE',
+                headers : {
+                    'Authorization': 'Bearer ' + token,
+                } ,
                 data: { _token: '{{ csrf_token() }}' },
                 success: function() {
                     toastr.warning('تم حذف السجل');

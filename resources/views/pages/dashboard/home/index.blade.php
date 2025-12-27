@@ -91,6 +91,7 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     let profitChart;
+    let token = localStorage.getItem('admin_token');
 
     $(document).ready(function() {
         fetchAllData();
@@ -102,6 +103,9 @@
         $.ajax({
             url: '/api', // تأكد من كتابة المسار الصحيح هنا
             method: 'GET',
+            headers : {
+                'Authorization': 'Bearer ' + token,
+            } ,
             success: function(res) {
                 // بما إننا بنستخدم successApi، البيانات موجودة داخل res.data
                 const d = res.data;
@@ -134,10 +138,10 @@
 
             tbody.append(`
                 <tr>
-                    <td>#${order.id}</td>
+                    <td>#${order.order_number}</td>
                     <td style="font-weight: bold; color: var(--admin-blue);">${order.cashier}</td>
                     <td>${timeFormatted}</td>
-                    <td style="font-size: 0.85rem; color: #666;">${order.summary}</td>
+                    <td style="font-size: 0.85rem; color: #666;">فرع السلام</td>
                     <td style="font-weight: bold;">${order.amount} ج.م</td>
                 </tr>
             `);

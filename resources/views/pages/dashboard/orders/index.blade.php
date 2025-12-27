@@ -5,14 +5,14 @@
 @section('css')
     <link rel="stylesheet" href="{{ asset('css/dashboard/orders.css') }}">
     <style>
-        :root { 
-            --primary: #e67e22; 
-            --secondary: #2c3e50; 
-            --success: #27ae60; 
-            --danger: #e74c3c; 
-            --warning: #f1c40f; 
-            --info: #3498db; 
-            --bg: #f8f9fa; 
+        :root {
+            --primary: #e67e22;
+            --secondary: #2c3e50;
+            --success: #27ae60;
+            --danger: #e74c3c;
+            --warning: #f1c40f;
+            --info: #3498db;
+            --bg: #f8f9fa;
         }
 
         /* تنسيق كروت الإحصائيات */
@@ -36,9 +36,9 @@
 
         /* الحالات */
         .status-pill { padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; display: inline-block; }
-        .status-pending { background: #fff4e5; color: #b45d00; } 
-        .status-preparing { background: #e1f5fe; color: #01579b; } 
-        .status-delivered { background: #e8f5e9; color: #1b5e20; } 
+        .status-pending { background: #fff4e5; color: #b45d00; }
+        .status-preparing { background: #e1f5fe; color: #01579b; }
+        .status-delivered { background: #e8f5e9; color: #1b5e20; }
 
         /* الأزرار */
         .action-btns { display: flex; gap: 8px; }
@@ -48,7 +48,7 @@
         /* النوافذ المنبثقة */
         .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); align-items: center; justify-content: center; z-index: 1000; padding: 20px; }
         .modal-box { background: white; padding: 25px; border-radius: 15px; width: 100%; max-width: 500px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-        
+
         /* الترقيم الصفحي */
         .pagination-container { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; background: white; padding: 15px; border-radius: 12px; }
         .page-link { padding: 8px 15px; border: 1px solid #eee; background: white; cursor: pointer; border-radius: 6px; margin: 0 2px; }
@@ -58,7 +58,7 @@
 
 @section('content')
 <main class="main-content">
-    
+
     <div class="filter-bar">
         <div class="filter-group">
             <label><i class="fas fa-calendar-alt"></i> من تاريخ</label>
@@ -138,6 +138,7 @@
 <script>
     let ordersGlobal = [];
     let currentP = 1;
+    let token = localStorage.getItem('admin_token') ;
 
     $(document).ready(function() {
         const today = new Date().toISOString().split('T')[0];
@@ -150,9 +151,12 @@
         $.ajax({
             url: `/api/orders?page=${page}`,
             method: 'GET',
-            data: { 
-                from_date: $('#fromDate').val(), 
-                to_date: $('#toDate').val() 
+            headers : {
+                'Authorization': 'Bearer ' + token,
+            } ,
+            data: {
+                from_date: $('#fromDate').val(),
+                to_date: $('#toDate').val()
             },
             success: function(res) {
                 ordersGlobal = res.data.data;
@@ -228,15 +232,15 @@
     function renderPagination(meta) {
         const links = $('#paginationLinks').empty();
         $('#paginationInfo').text(`إجمالي الطلبات: ${meta.total}`);
-        
+
         links.append(`<button class="page-link" ${meta.current_page === 1 ? 'disabled' : ''} onclick="fetchOrders(${meta.current_page - 1})">السابق</button>`);
-        
+
         for (let i = 1; i <= meta.last_page; i++) {
             if (i === 1 || i === meta.last_page || (i >= meta.current_page - 1 && i <= meta.current_page + 1)) {
                 links.append(`<button class="page-link ${i === meta.current_page ? 'active' : ''}" onclick="fetchOrders(${i})">${i}</button>`);
             }
         }
-        
+
         links.append(`<button class="page-link" ${meta.current_page === meta.last_page ? 'disabled' : ''} onclick="fetchOrders(${meta.current_page + 1})">التالي</button>`);
     }
 

@@ -76,6 +76,7 @@
 <script>
     // بيانات تجريبية (سيتم استبدالها بـ AJAX)
     let categories = [];
+    let token = localStorage.getItem('admin_token')
 
     $(document).ready(function() {
         fetchCategories();
@@ -92,6 +93,9 @@
         $.ajax({
             url : "api/category" ,
             method : "GET" ,
+            headers : {
+                'Authorization': 'Bearer ' + token,
+            } ,
             success : function(res){
                 categories = res.data ;
                 renderTable(categories) ;
@@ -151,7 +155,8 @@
         $.ajax({
             url: id ? '/api/category/' + id : '/api/category' ,
             headers: {
-                'Accept': 'application/json'
+                'Accept': 'application/json',
+                'Authorization': 'Bearer ' + token,
             },
             method: id ? 'PUT' : 'POST' ,
             data: { title : title } ,
@@ -197,7 +202,8 @@
             url : "/api/category/" + id ,
             method : "DELETE" ,
             headers : {
-                'Accept' : 'application/json'
+                'Accept' : 'application/json',
+                'Authorization': 'Bearer ' + token,
             } ,
             success : function(){
                 categories = categories.filter(category => category.id != id) ;

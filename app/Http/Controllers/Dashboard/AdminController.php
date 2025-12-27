@@ -37,7 +37,9 @@ class AdminController extends Controller
 
     public function update(AdminRequest $request, Admin $admin)
     {
-        $admin->update($request->validated()) ;
+        $validated = $request->validated() ;
+        $validated['password'] = Hash::make($request->password); // override
+        $admin->update($validated) ;
         return $this->successApi($admin , 'Admin updated successfully') ;
     }
 

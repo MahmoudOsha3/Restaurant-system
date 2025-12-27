@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\Dashboard\AuthController;
 use App\Http\Controllers\Dashboard\InvoiceController;
+use App\Http\Controllers\Dashboard\ManageRouteController;
 use App\Http\Controllers\Dashboard\MealController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
@@ -8,41 +10,37 @@ use Illuminate\Support\Facades\Route;
 
 
 
+// Route
 
-Route::get('/', function () {
-    return view('pages.dashboard.home.index') ;
-});
+Route::middleware(['auth:admin'])->group(function(){
 
-Route::get('/categories', function () {
-    return view('pages.dashboard.categories.index') ;
-});
+    Route::controller(ManageRouteController::class)->group(function (){
+        Route::get('/' , 'dashboard') ;
+        Route::get('/categories' , 'categories') ;
+        Route::get('/meals' , 'meals') ;
+        Route::get('/orders' , 'orders') ;
+        Route::get('/admins' , 'admins') ;
+        Route::get('/roles' , 'roles') ;
+        Route::get('/invoices' , 'invoices') ;
+    });
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::get('/meals', function () {
-    return view('pages.dashboard.meal.index') ;
-});
 
-Route::get('/orders', function () {
-    return view('pages.dashboard.orders.index') ;
 });
+Route::get('/login', [AuthController::class, 'loginView']);
+Route::post('/login', [AuthController::class, 'login'])->name('login')->middleware('throttle:5,1');
 
-Route::get('/admins', function () {
-    return view('pages.dashboard.admins.index') ;
-});
 
-Route::get('/roles', function () {
-    return view('pages.dashboard.rolesAndPermissions.index') ;
-});
 
-Route::get('/invoices', function () {
-    return view('pages.dashboard.invoices.index') ;
-});
 
 
 Route::get('test' , function(){
     return view('test') ;
 });
-
 Route::post('test/store' , [InvoiceController::class , 'store'])->name('test.store') ;
 
 
-require __DIR__.'/auth.php';
+
+
+
+// require __DIR__.'/auth.php';

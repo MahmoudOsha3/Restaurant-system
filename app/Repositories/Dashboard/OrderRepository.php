@@ -44,7 +44,7 @@ class OrderRepository implements OrderRepositoryInterface
             // $auth  = ['user_id' => Auth::guard('web')->user()->id , 'admin_id' => Auth::guard('admin')->user()->id ] ;
             $order = Order::create([
                 'user_id' =>  null ,
-                'admin_id' => 1 ,
+                'admin_id' => auth()->user()->id ,
                 'type' => 'onsite' ,
                 'subtotal' => $subTotal ,
                 'tax' => config('order.tax') ,

@@ -5,7 +5,7 @@ use App\Http\Controllers\Dashboard\{AdminController, AuthController, CartControl
 
 
 
-Route::middleware('auth:sanctum')->group(function(){
+// Route::middleware('auth:sanctum')->group(function(){
     Route::get('/' , [HomeController::class , 'index']) ;
     Route::apiResource('admins' , AdminController::class) ;
     Route::apiResource('category' , CategoryController::class);
@@ -15,5 +15,5 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::apiResource('cart' , CartController::class) ;
     Route::apiResource('orders' , OrderController::class) ;
     Route::apiResource('invoice' , InvoiceController::class) ;
-});
+// });
 

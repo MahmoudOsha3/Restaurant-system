@@ -1,46 +1,43 @@
 <?php
 
-use App\Http\Controllers\Dashboard\AuthController;
-use App\Http\Controllers\Dashboard\InvoiceController;
-use App\Http\Controllers\Dashboard\ManageRouteController;
-use App\Http\Controllers\Dashboard\MealController;
-use App\Http\Controllers\ProfileController;
-use Illuminate\Foundation\Application;
+use App\Http\Controllers\Website\AuthController;
+use App\Http\Controllers\Website\HomeController;
+use App\Http\Controllers\Website\ProfileController;
+use App\Http\Controllers\Website\SocialiteController;
 use Illuminate\Support\Facades\Route;
 
 
 
-// Route
+    Route::middleware('web')->group(function(){
 
-Route::middleware(['auth:admin'])->group(function(){
+        Route::get('/' , [HomeController::class , 'home'])->name('home') ;
 
-    Route::controller(ManageRouteController::class)->group(function (){
-        Route::get('/' , 'dashboard') ;
-        Route::get('/categories' , 'categories') ;
-        Route::get('/meals' , 'meals') ;
-        Route::get('/orders' , 'orders') ;
-        Route::get('/admins' , 'admins') ;
-        Route::get('/roles' , 'roles') ;
-        Route::get('/invoices' , 'invoices') ;
+        Route::prefix('user/profile')->name('user.')->controller(ProfileController::class)->group(function(){
+            Route::get('/' , 'profile')->name('profile');
+            Route::put('update' , 'update')->name('profile.update') ;
+        });
+
+        Route::post('auth/logout' ,[AuthController::class , 'logout'])->name('auth.logout') ;
+
     });
-    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
+    // Authentication system
 
-});
-Route::get('/login', [AuthController::class, 'loginView']);
-Route::post('/login', [AuthController::class, 'login'])->name('login')->middleware('throttle:5,1');
+    // login using (system)
+    Route::prefix('auth')->middleware('guest')->name('auth.')->controller(AuthController::class)->group(function () {
 
+        Route::get('login', 'login')->name('login');
+        Route::post('login', 'checkLogin')->name('check');
 
+        Route::get('register', 'register')->name('create');
+        Route::post('create', 'createUser')->name('store');
+    });
 
+    // login using (Google and github)
+    Route::prefix('app')->name('socialite.')->controller(SocialiteController::class)->group(function(){
+        Route::get('login/{provider}' , 'login')
+            ->where('provider/{provider}' , 'github|google')->name('login') ;
 
-
-Route::get('test' , function(){
-    return view('test') ;
-});
-Route::post('test/store' , [InvoiceController::class , 'store'])->name('test.store') ;
-
-
-
-
-
-// require __DIR__.'/auth.php';
+        Route::get('redirect/{provider}' , 'redirect')->name('redirect')
+            ->where('provider', 'github|google');
+    });

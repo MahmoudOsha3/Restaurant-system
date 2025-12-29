@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Hash;
 class TokenService
 {
     use ManageApiTrait ;
-    
+
     public function generateToken(Request $request)
     {
         $request->validate(['email' => 'required|email|exists:admins,email' , 'password' => 'required|string|min:8']) ;

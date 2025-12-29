@@ -25,7 +25,7 @@ class Meal extends Model
     // Accessor
     public function getImageUrlAttribute()
     {
-        return asset(Storage::url('meals/'.$this->image)) ;
+        return asset(Storage::url('meals/' . $this->image)) ;
     }
 
     // Relationships

@@ -63,8 +63,6 @@
     channel.bind(
         'Illuminate\\Notifications\\Events\\BroadcastNotificationCreated',
         function (data) {
-            console.log('Notification received:', data);
-            
 
             toastr.success(
                 data.message,

@@ -40,7 +40,14 @@ use Illuminate\Support\Facades\Route;
     });
 
     // Reset password
-    Route::prefix('auth')->middleware('guest')->name('auth.')->controller(ResetPasswordController::class)->group(function (){
+    Route::prefix('auth')->middleware('guest')->controller(ResetPasswordController::class)->group(function (){
+
         Route::get('reset' , 'index' )->name('reset.password.view');
         Route::post('reset/password' , 'reset' )->name('reset.password');
+
+        Route::get('reset-password/{token}','showResetForm')
+            ->name('password.reset');
+
+        Route::post('reset-password', 'update')
+            ->name('password.update');
     });

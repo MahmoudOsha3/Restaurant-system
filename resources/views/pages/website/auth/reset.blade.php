@@ -186,7 +186,7 @@
         <h2 style="color: #fff; margin-bottom: 10px;">مرحباً بك مجدداً</h2>
         <p style="color: #888; margin-bottom: 30px;">يمكنك استعادة كلمة المرور عبر بريدك الإلكتروني </p>
 
-        <form action="{{ route('auth.reset.password') }}" method="POST" class="auth-form">
+        <form action="{{ route('reset.password') }}" method="POST" class="auth-form">
             @csrf
 
             <div class="form-group">

@@ -18,6 +18,6 @@ class HomeController extends Controller
     public function home()
     {
         $meals = Meal::where('status' , 'active')->take(10)->get() ;
-        return view('pages.site.home' , compact('meals')) ;
+        return view('pages.website.home' , compact('meals')) ;
     }
 }

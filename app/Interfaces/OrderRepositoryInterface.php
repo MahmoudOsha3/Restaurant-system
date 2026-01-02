@@ -18,5 +18,4 @@ interface OrderRepositoryInterface
 
     public function countOrders();
 
-
 }

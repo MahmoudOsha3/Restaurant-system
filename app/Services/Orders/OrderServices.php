@@ -22,7 +22,7 @@ class OrderServices
     public function totalOrder($subTotal)
     {
         $taxRate = config('order.tax'); // 0.14
-        $total = $subTotal + ($subTotal * $taxRate);
+        $total = $subTotal + ($subTotal * $taxRate) + config('order.delivery_fee') ;
         return $total ;
     }
 

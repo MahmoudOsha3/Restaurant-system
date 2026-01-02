@@ -1,21 +1,20 @@
 <?php
 
-namespace App\Http\Requests\Dashboard;
+namespace App\Http\Requests\Website;
 
 use Illuminate\Foundation\Http\FormRequest;
 
 class OrderRequest extends FormRequest
 {
-
     public function authorize()
     {
-        return true;
+        return true ;
     }
 
     public function rules()
     {
         return [
-            'admin_id' => 'required|exists:admins,id' ,
+            'user_id' => 'required|exists:users,id'
         ];
     }
 }

@@ -1,25 +1,22 @@
 <?php
 
-use App\Http\Controllers\Website\AuthController;
-use App\Http\Controllers\Website\HomeController;
-use App\Http\Controllers\Website\ProfileController;
-use App\Http\Controllers\Website\SocialiteController;
+use App\Http\Controllers\Website\{CartController,HomeController, OrderController, ProfileController};
+use App\Http\Controllers\Website\{AuthController , SocialiteController , ResetPasswordController};
 use Illuminate\Support\Facades\Route;
 
-
-
     Route::middleware('web')->group(function(){
+        Route::get('carts' , [CartController::class , 'getCarts']);
+        Route::get('/' , [HomeController::class , 'home'])->name('home');
+        Route::get('order/checkout' , [OrderController::class , 'checkout'])->name('order.checkout');
+        Route::post('user/order' , [OrderController::class , 'store'])->name('order.store');
 
-        Route::get('/' , [HomeController::class , 'home'])->name('home') ;
-
+        // Authentication system
         Route::prefix('user/profile')->name('user.')->controller(ProfileController::class)->group(function(){
             Route::get('/' , 'profile')->name('profile');
             Route::put('update' , 'update')->name('profile.update') ;
         });
-
         Route::post('auth/logout' ,[AuthController::class , 'logout'])->name('auth.logout') ;
-
-    });
+    }) ;
 
     // Authentication system
 
@@ -27,7 +24,7 @@ use Illuminate\Support\Facades\Route;
     Route::prefix('auth')->middleware('guest')->name('auth.')->controller(AuthController::class)->group(function () {
 
         Route::get('login', 'login')->name('login');
-        Route::post('login', 'checkLogin')->name('check');
+        Route::post('login', 'checkLogin')->middleware('throttle:5,1')->name('check');
 
         Route::get('register', 'register')->name('create');
         Route::post('create', 'createUser')->name('store');
@@ -40,4 +37,10 @@ use Illuminate\Support\Facades\Route;
 
         Route::get('redirect/{provider}' , 'redirect')->name('redirect')
             ->where('provider', 'github|google');
+    });
+
+    // Reset password
+    Route::prefix('auth')->middleware('guest')->name('auth.')->controller(ResetPasswordController::class)->group(function (){
+        Route::get('reset' , 'index' )->name('reset.password.view');
+        Route::post('reset/password' , 'reset' )->name('reset.password');
     });

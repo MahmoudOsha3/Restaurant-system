@@ -4,17 +4,20 @@ namespace App\Repositories\Dashboard ;
 
 use App\Events\OrderCreated;
 use App\Interfaces\OrderRepositoryInterface;
-use App\Models\Cart;
+use App\Models\Admin;
 use App\Models\Order;
+use App\Notifications\OrderCreatedNotification;
 use App\Services\Orders\OrderServices;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class OrderRepository implements OrderRepositoryInterface
 {
     protected $orderService , $cartRepository , $orderItemRepository ;
 
-    public function __construct(OrderServices $orderService , CartRepository $cartRepository , OrderItemRepository $orderItemRepository) {
+    public function __construct(OrderServices $orderService ,
+        CartRepository $cartRepository ,
+        OrderItemRepository $orderItemRepository){
+
         $this->orderService = $orderService;
         $this->cartRepository = $cartRepository ;
         $this->orderItemRepository = $orderItemRepository ;
@@ -28,32 +31,30 @@ class OrderRepository implements OrderRepositoryInterface
         return $orders ;
     }
 
-    public function create($request)
+    public function create($userId)
     {
         DB::beginTransaction() ;
         try{
-            $carts = $this->cartRepository->getCarts() ;
-
+            $carts = $this->cartRepository->getCarts($userId);
             if ($carts->isEmpty()) {
                 throw new \Exception('Cart is empty');
             }
 
             $subTotal = $this->orderService->subTotalOrder($carts) ;
             $total = $this->orderService->totalOrder($subTotal);
-
-            // $auth  = ['user_id' => Auth::guard('web')->user()->id , 'admin_id' => Auth::guard('admin')->user()->id ] ;
             $order = Order::create([
-                'user_id' =>  null ,
-                'admin_id' => auth()->user()->id ,
-                'type' => 'onsite' ,
+                'user_id' =>  $userId,
+                'type' => 'online' ,
                 'subtotal' => $subTotal ,
-                'tax' => config('order.tax') ,
+                'tax' => config('order.tax') * $subTotal ,
                 'delivery_fee' => config('order.delivery_fee') ,
                 'total' => $total
             ]);
 
             $this->orderItemRepository->create($order , $carts);
             $this->cartRepository->deleteAll($carts) ;
+
+            event(new OrderCreated($order)) ; // send Notify using Pusher and store in DB
             DB::commit() ;
 
             return $order ;

@@ -17,8 +17,8 @@ return new class extends Migration
             $table->id();
             $table->string('title') ;
             $table->text('description') ;
-            $table->descimal('price') ;
-            $table->descimal('compare_price')->nullable();
+            $table->decimal('price') ;
+            $table->decimal('compare_price')->nullable();
             $table->string('image') ;
             $table->enum('status' , ['active' , 'inactive']);
             $table->integer('preparation_time') ;

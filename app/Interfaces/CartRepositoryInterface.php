@@ -6,7 +6,7 @@ use App\Models\Cart;
 
 interface CartRepositoryInterface
 {
-    public function getCarts();
+    public function getCarts($user_id = null );
 
     public function create($request);
 

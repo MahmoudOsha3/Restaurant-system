@@ -13,7 +13,7 @@ class Order extends Model
 
     protected $fillable = ['user_id' , 'admin_id' , 'order_number' ,
         'status' , 'type' , 'subtotal' , 'tax' ,
-        'delivet_fee' , 'total'];
+        'delivery_fee' , 'total'];
 
 
     public static function booted()
@@ -30,11 +30,11 @@ class Order extends Model
             $builder->where('order_number' ,'LIKE' , "%{$order_number}%") ;
         });
 
-        $builder->when($request->filled('from_date') && $request->filled('to_date') , 
+        $builder->when($request->filled('from_date') && $request->filled('to_date') ,
             function($builder) use ($request){
                 $from_date = Carbon::parse($request->from_date)->startOfDay() ;
                 $to_date = Carbon::parse($request->to_date)->endOfDay();
-                
+
                 $builder->whereBetween('created_at' , [$from_date , $to_date]) ;
         }) ;
     }
@@ -60,6 +60,11 @@ class Order extends Model
     public function admin()
     {
         return $this->belongsTo(Admin::class , 'admin_id') ;
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class , 'user_id') ;
     }
 
 

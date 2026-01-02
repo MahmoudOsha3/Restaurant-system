@@ -1,0 +1,33 @@
+<?php
+
+namespace App\Http\Controllers\Website;
+
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Dashboard\CartRequest;
+use App\Models\Cart;
+use App\Repositories\Dashboard\CartRepository;
+use App\Traits\ManageApiTrait;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+
+class CartController extends Controller
+{
+    use ManageApiTrait ;
+    protected $cartRepository ;
+
+    public function __construct(CartRepository $cartRepository) {
+        $this->cartRepository = $cartRepository;
+    }
+
+    public function getCarts()
+    {
+        $carts = $this->cartRepository->getCarts(auth()->user()->id ?? null) ;
+        return $this->successApi($carts , 'Data fetched successfully') ;
+    }
+
+    public function store(CartRequest $request)
+    {
+        $cart = $this->cartRepository->create($request->validated()) ;
+        return $this->successApi($cart , 'Data stored successfully') ;
+    }
+}

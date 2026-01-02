@@ -2,44 +2,7 @@
 
 @section('title' , 'شيخ المندي')
 @section('css')
-<style>
-.menu-container {
-    padding: 60px 0;
-    overflow: hidden; /* يمنع السكرول الخارجي للموقع */
-}
-
-.horizontal-scroll-wrapper {
-    width: 100%;
-    overflow-x: auto; /* تفعيل السكرول الأفقي */
-    padding: 30px 8%;
-    scrollbar-width: none; /* إخفاء شريط السكرول لفايرفوكس */
-}
-
-.horizontal-scroll-wrapper::-webkit-scrollbar {
-    display: none; /* إخفاء شريط السكرول لكروم */
-}
-
-.food-scroll-grid {
-    display: flex;
-    flex-wrap: nowrap; /* إجباري: عدم النزول لسطر جديد */
-    gap: 30px;
-}
-
-.category-item {
-    flex: 0 0 300px; /* إجباري: عرض ثابت للكرت (300px) */
-    max-width: 300px;
-    background: #1a1a1a;
-    border-radius: 15px;
-    border: 1px solid #333;
-}
-
-.category-item img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    border-radius: 15px 15px 0 0;
-}
-</style>
+<link rel="stylesheet" href="{{ asset('css/site/home.css') }}">
 
 @endsection
 
@@ -67,14 +30,14 @@
             <div class="food-scroll-grid">
                 @forelse ($meals as $meal)
                     <div class="food-card category-item animate-up" style="display: block !important;">
-                        <div class="badge">مميز</div>
+                        {{-- <div class="badge">مميز</div> --}}
                         <img src="{{ $meal->image_url }}" alt="{{ $meal->title }}">
 
                         <div class="card-info">
                             <h3>{{ $meal->title }}</h3>
                             <div class="price-row">
                                 <span class="price">{{ $meal->price }} ج.م</span>
-                                <button class="add-btn" onclick="addToCart({{ $meal->id }}, '{{ $meal->title }}', {{ $meal->price }}), '{{ $meal->image_url }}'">+</button>
+                                <button class="add-btn" onclick="storeToCart({{ $meal->id }})">+</button>
                             </div>
                         </div>
                     </div>
@@ -131,5 +94,118 @@
         const walk = (x - startX) * 2; // سرعة السحب
         slider.scrollLeft = scrollLeft - walk;
     });
+</script>
+
+<script>
+    let carts = [] ;
+
+    $(document).ready(function(){
+        fetchCarts() ;
+    }) ;
+
+    function storeToCart(meal_id){
+        $.ajax({
+            url : "api/cart" ,
+            method : "POST" ,
+            headers : {'Accept' : 'application/json'} ,
+            data : {
+                user_id : `{{ auth()->user()->id ?? null }}` ,
+                quantity : 1 ,
+                meal_id : meal_id
+            },
+            success : function(){
+                fetchCarts() ;
+            },
+            error: function(xhr){
+                console.log(xhr.responseJSON?.message);
+            }
+        }) ;
+    }
+
+    function fetchCarts(){
+        $.ajax({
+            url :`carts` ,
+            method : "GET" ,
+            headers : {
+                'Accept' : 'application/json',
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success : function(res){
+                carts = res.data ;
+                updateUI(carts) ;
+            },
+            error : function(){
+
+            } ,
+        }) ;
+    }
+
+    function updateUI() {
+        const itemsCont = document.getElementById('cartItems');
+        const cartTotal = document.getElementById('cartTotal');
+        const cartCount = document.getElementById('cart-count');
+
+        let total = 0;
+        let count = 0;
+
+        if (carts.length === 0) {
+            itemsCont.innerHTML = '<p class="empty-msg">سلتك بانتظار أشهى المأكولات</p>';
+        } else {
+
+            itemsCont.innerHTML = '';
+            carts.forEach(cart => {
+                total += cart.meal.price * cart.quantity;
+                count += cart.quantity ;
+
+                itemsCont.innerHTML += `
+                    <div class="cart-item">
+                        <img src="${cart.meal.image_url}" alt="${cart.meal.title}" class="cart-item-img">
+                        <div class="cart-item-info">
+                            <h4>${cart.meal.title}</h4>
+                            <p>${cart.meal.price} ج.م</p>
+                        </div>
+                        <div class="qty-controls">
+                            <button onclick="changeQty(${cart.id}, -1)">-</button>
+                            <span>${cart.quantity}</span>
+                            <button onclick="changeQty(${cart.id}, 1)">+</button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // تحديث الأرقام النهائية
+        cartTotal.innerText = total;
+        cartCount.innerText = count;
+    }
+
+    function changeQty(id, amt) {
+        const item = carts.find(cart => cart.id === id);
+        if (!item) return;
+
+        $.ajax({
+            url:`api/cart/${id}`,
+            method:'PUT' ,
+            headers : {
+                'Accept' : 'application/json',
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            data : {
+                quantity: amt ,
+            } ,
+            success : function(){
+                fetchCarts() ;
+            },
+            error: function(xhr){
+                alert(xhr.responseJSON?.message) ;
+            }
+        }) ;
+        if(item.quantity <= 0) {
+            cart = carts.filter(i => i.id !== id);
+        }
+        updateUI();
+    }
+
+
 </script>
 @endsection

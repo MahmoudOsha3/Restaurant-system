@@ -208,7 +208,7 @@
             </div>
 
             <div style="text-align: left; margin-bottom: 20px;">
-                <a href="#" style="color: #888; font-size: 0.8rem; text-decoration: none;">نسيت كلمة المرور؟</a>
+                <a href="{{ route('auth.reset.password.view') }}" style="color: #888; font-size: 0.8rem; text-decoration: none;">نسيت كلمة المرور؟</a>
             </div>
 
             <button type="submit" class="auth-btn">دخول</button>

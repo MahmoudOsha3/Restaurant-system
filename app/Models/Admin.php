@@ -34,6 +34,10 @@ class Admin extends Authenticatable
         // 'password' => 'hashed',
     ];
 
+    public function scopeSuperAdmins($query)
+    {
+        $query->where('role_id' , 1 ) ;
+    }
 
     public function hasPermission($permission)
     {

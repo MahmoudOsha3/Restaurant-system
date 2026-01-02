@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Website;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Website\RegisterUserRequest;
+use App\Models\Cart;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,7 +15,7 @@ class AuthController extends Controller
     // Login
     public function login()
     {
-        return view('pages.site.login') ;
+        return view('pages.website.auth.login') ;
     }
     public function checkLogin(Request $request)
     {
@@ -27,14 +28,20 @@ class AuthController extends Controller
         {
             return redirect()->back()->with('error' , 'البريد الالكتروني او كلمة المرور خطأ') ;
         }
+
         $request->session()->regenerate();
+        Cart::where('cookie_id', Cart::getCookieId())
+            ->update([
+                'user_id' => auth()->id(),
+                'cookie_id' => null
+            ]);
         return redirect()->route('home') ;
     }
 
     // Register
     public function register()
     {
-        return view('pages.site.register') ;
+        return view('pages.website.auth.register') ;
     }
 
     public function createUser(RegisterUserRequest $request)
@@ -44,6 +51,11 @@ class AuthController extends Controller
         $user = User::create($validated);
         Auth::login($user) ;
         $request->session()->regenerate();
+        Cart::where('cookie_id', Cart::getCookieId())
+            ->update([
+                'user_id' => auth()->id(),
+                'cookie_id' => null
+            ]);
         return to_route('home') ;
     }
 

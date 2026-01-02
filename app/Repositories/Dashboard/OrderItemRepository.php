@@ -29,8 +29,8 @@ class OrderItemRepository implements OrderItemRepositoryInterface
                 'updated_at'=> now(),
             ];
         }
-        OrderItem::insert($items);
-        return true ;
+        $OrderItem = OrderItem::insert($items);
+        return $OrderItem ;
     }
 
 

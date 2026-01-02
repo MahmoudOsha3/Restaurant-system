@@ -1,24 +1,21 @@
 <?php
 
-namespace App\Http\Requests\Dashboard;
+namespace App\Http\Requests\Website;
 
 use Illuminate\Foundation\Http\FormRequest;
 
 class CartRequest extends FormRequest
 {
-
     public function authorize()
     {
         return true ;
     }
 
-
     public function rules()
     {
         $rules =  [
-            'admin_id' => 'nullable|exists:admins,id',
             'user_id' => 'nullable|exists:users,id',
-            'quantity' => 'required|integer|in:1,-1',
+            'quantity' => 'required|numeric|min:1|max:30',
         ];
 
         if ($this->isMethod('post')) {

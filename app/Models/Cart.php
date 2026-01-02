@@ -25,28 +25,12 @@ class Cart extends Model
         });
     }
 
-    // carts
-    public function scopeForUser($q)
-    {
-        return $q->where('user_id', Auth::id());
-    }
-
-    public function scopeForAdmin($q)
-    {
-        return $q->where('admin_id', auth()->user()->id);
-    }
-
-    public function scopeForGuest($q)
-    {
-        return $q->where('cookie_id', Cart::getCookieId());
-    }
-
     public static function getCookieId()
     {
-        $cookieId = Cookie::get('cookie_id') ;
+        $cookieId = Cookie::get('cart_id') ;
         if(! $cookieId){
             $cookieId = (string) Str::uuid() ;
-            Cookie::queue('cookie_id' , $cookieId  , 60 * 24 * 30 ) ;
+            Cookie::queue('cart_id' , $cookieId  , 60 * 24 * 30 ) ;
         }
         return $cookieId ;
     }

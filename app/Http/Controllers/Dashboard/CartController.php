@@ -7,6 +7,7 @@ use App\Http\Requests\Dashboard\CartRequest;
 use App\Models\Cart;
 use App\Repositories\Dashboard\CartRepository;
 use App\Traits\ManageApiTrait;
+use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
@@ -16,9 +17,9 @@ class CartController extends Controller
         $this->cartRepository = $cartRepository;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $carts = $this->cartRepository->getCarts() ;
+        $carts = $this->cartRepository->getCarts($request) ;
         return $this->successApi($carts , 'Carts fetched successfully') ;
     }
 

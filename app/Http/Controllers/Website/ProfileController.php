@@ -11,7 +11,7 @@ class ProfileController extends Controller
 {
     public function profile()
     {
-        return view('pages.site.profile') ;
+        return view('pages.website.auth.profile') ;
     }
     public function update(ProfileRequest $request)
     {

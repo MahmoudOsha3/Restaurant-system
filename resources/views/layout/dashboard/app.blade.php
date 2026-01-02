@@ -25,21 +25,60 @@
 </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script>
+        toastr.options = {
+            closeButton: true,
+            progressBar: true,
+            positionClass: "toast-top-left",
+            timeOut: 3000,
+            extendedTimeOut: 1000,
+            newestOnTop: true,
+            preventDuplicates: true,
+            rtl: true,
+            showMethod: "fadeIn",
+            hideMethod: "fadeOut"
+        };
+    </script>
+
+<script src="https://js.pusher.com/8.0/pusher.min.js"></script>
 
 <script>
-        toastr.options = {
-        closeButton: true,
-        progressBar: true,
-        positionClass: "toast-top-left",
-        timeOut: 3000,
-        extendedTimeOut: 1000,
-        newestOnTop: true,
-        preventDuplicates: true,
-        rtl: true,
-        showMethod: "fadeIn",
-        hideMethod: "fadeOut"
-    };
+    Pusher.logToConsole = true;
+    const pusher = new Pusher("{{ env('PUSHER_APP_KEY') }}", {
+        cluster: "{{ env('PUSHER_APP_CLUSTER') }}",
+        forceTLS: false,
+        enabledTransports: ['ws', 'wss'],
+        authEndpoint: '/broadcasting/auth',
+        auth: {
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            }
+        }
+    });
+
+    const channel = pusher.subscribe(
+        'private-App.Models.Admin.{{ auth("admin")->id() }}'
+    );
+
+    channel.bind(
+        'Illuminate\\Notifications\\Events\\BroadcastNotificationCreated',
+        function (data) {
+            console.log('Notification received:', data);
+            
+
+            toastr.success(
+                data.message,
+                data.title
+            );
+        }
+    );
 </script>
+
+
+    </script>
+
+
+
 @yield('js')
 
 </body>

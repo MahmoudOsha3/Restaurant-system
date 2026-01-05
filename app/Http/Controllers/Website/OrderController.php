@@ -20,22 +20,19 @@ class OrderController extends Controller
         $this->orderRepoistory = $orderRepoistory ;
         $this->cartRepository = $cartRepository ;
         $this->orderServices = $orderServices ;
-
-
     }
 
-    public function checkout()
+    // all orders of my authentication
+    public function orders()
     {
-        $subTotal = 0;
-        $carts = $this->cartRepository->getCarts(auth()->user()->id );
-        $subTotal = $this->orderServices->subTotalOrder($carts) ;
-        return view('pages.website.checkout' , compact('carts', 'subTotal'));
+        $orders = Order::with('orderItems')->where('user_id' , auth()->user()->id )->latest()->get() ;
+        return view('pages.website.order.myOrders' , compact('orders'));
     }
 
     public function store(Request $request)
     {
         $order = $this->orderRepoistory->create(auth()->user()->id);
-        return to_route('order.checkout') ;
+        return to_route('orders.checkout') ;
     }
 
 

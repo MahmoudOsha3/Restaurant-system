@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Dashboard\CartRequest;
 use App\Models\Cart;
 use App\Repositories\Dashboard\CartRepository;
+use App\Repositories\Dashboard\OrderRepository;
+use App\Services\Orders\OrderServices;
 use App\Traits\ManageApiTrait;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -13,10 +15,19 @@ use Illuminate\Http\Request;
 class CartController extends Controller
 {
     use ManageApiTrait ;
-    protected $cartRepository ;
+    protected $cartRepository , $orderServices ;
 
-    public function __construct(CartRepository $cartRepository) {
+    public function __construct(CartRepository $cartRepository , OrderServices $orderServices) {
         $this->cartRepository = $cartRepository;
+        $this->orderServices = $orderServices ;
+    }
+
+    public function index()
+    {
+        $subTotal = 0;
+        $carts = $this->cartRepository->getCarts(auth()->user()->id );
+        $subTotal = $this->orderServices->subTotalOrder($carts) ;
+        return view('pages.website.carts.index' , compact('carts', 'subTotal'));
     }
 
     public function getCarts()

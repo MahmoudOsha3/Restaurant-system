@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignId('admin_id')->nullable()->constrained('admins')->nullOnDelete();
             $table->string('order_number')->unique();
             $table->enum('status', ['pending', 'confirmed', 'preparing', 'ready', 'delivered', 'cancelled'])->default('pending');
+            $table->enum('payment_status', ['unpaid', 'paid','faild'])->default('unpaid') ;
             $table->enum('type' , ['online' , 'onsite']) ;
             $table->decimal('subtotal', 10, 2); // before fees
             $table->decimal('tax', 10, 2)->default(0);

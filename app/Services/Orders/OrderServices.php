@@ -26,6 +26,15 @@ class OrderServices
         return $total ;
     }
 
+    public static function updateForPayment($order_id)
+    {
+        Order::where('id', $order_id)->update([
+                'payment_status' => 'paid',
+                'status' => 'confirmed',
+            ]);
+        return true ;
+    }
+
 }
 
 

@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['auth:admin'])->group(function(){
 
     Route::controller(ManageRouteController::class)->group(function (){
-        Route::get('/dashboard' , 'dashboard') ;
+        Route::get('/dashboard' , 'dashboard')->name('dashboard') ;
         Route::get('/categories' , 'categories') ;
         Route::get('/meals' , 'meals') ;
         Route::get('/orders' , 'orders') ;

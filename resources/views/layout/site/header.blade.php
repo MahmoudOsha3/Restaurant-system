@@ -6,7 +6,7 @@
         <div class="cart-items" id="cartItems">
             <p class="empty-msg">سلتك بانتظار أشهى المأكولات</p>
         </div>
-        <form action="{{ route('order.checkout') }}" method="get">
+        <form action="{{ route('carts.index') }}" method="get">
             <div class="cart-footer">
                 <div class="total-price">الإجمالي: <span id="cartTotal">0</span> ج.م</div>
                 <button type="submit" class="checkout-btn" style="width: 200px;height: 40px; margin-top: 20px;background-color: gold;border: solid black 2px;border-radius: 20px;">الي السلة لتأكيد طلبك</button>
@@ -33,7 +33,7 @@
                         <i class="fas fa-chevron-down arrow-icon"></i>
                     </div>
                     <div class="dropdown-content">
-                        <a href="{{ route('order.checkout') }}"><i class="fas fa-history"></i> طلباتي</a>
+                        <a href="{{ route('orders.checkout') }}"><i class="fas fa-history"></i> طلباتي</a>
                         <a href="{{ route('user.profile') }}"><i class="fas fa-cog"></i> ملفي الشخصي</a>
                         <hr>
                         <form action="{{ route('auth.logout') }}" method="POST" id="logout-form">

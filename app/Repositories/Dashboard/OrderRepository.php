@@ -78,7 +78,10 @@ class OrderRepository implements OrderRepositoryInterface
 
     public function update($request , $order)
     {
-
+        $order->update([
+            'payment_status' => 'paid' ,
+            'status' => 'confirmed'
+        ]) ;
     }
 
     public function delete(Order $order)

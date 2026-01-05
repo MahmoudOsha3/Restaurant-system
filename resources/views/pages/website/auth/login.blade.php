@@ -175,7 +175,6 @@
 
     .social-btn i { font-size: 1.2rem; }
 </style>
-</style>
 @endsection
 
 @section('content')

@@ -42,4 +42,10 @@ return [
         'redirect' => env('GOOGLE_CLIENT_REDIRECT'),
     ],
 
+    'paymob' => [
+        'base_url' => env('PAYMOB_BASE_URL') ,
+        'api_key' => env('PAYMOB_API_KEY'),
+        'hmac_secret'   => env('PAYMOB_HMAC_SECRET'),
+    ]
+
 ];

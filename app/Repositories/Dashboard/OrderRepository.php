@@ -4,10 +4,9 @@ namespace App\Repositories\Dashboard ;
 
 use App\Events\OrderCreated;
 use App\Interfaces\OrderRepositoryInterface;
-use App\Models\Admin;
 use App\Models\Order;
-use App\Notifications\OrderCreatedNotification;
 use App\Services\Orders\OrderServices;
+use Exception;
 use Illuminate\Support\Facades\DB;
 
 class OrderRepository implements OrderRepositoryInterface
@@ -37,7 +36,7 @@ class OrderRepository implements OrderRepositoryInterface
         try{
             $carts = $this->cartRepository->getCarts($userId);
             if ($carts->isEmpty()) {
-                throw new \Exception('Cart is empty');
+                throw new Exception('Cart is empty');
             }
 
             $subTotal = $this->orderService->subTotalOrder($carts) ;
@@ -54,9 +53,8 @@ class OrderRepository implements OrderRepositoryInterface
             $this->orderItemRepository->create($order , $carts);
             $this->cartRepository->deleteAll($carts) ;
 
-            event(new OrderCreated($order)) ; // send Notify using Pusher and store in DB
             DB::commit() ;
-
+            event(new OrderCreated($order)) ; // send Notify using Pusher and store in DB => (using Queue)
             return $order ;
         }
         catch(\Exception $e)

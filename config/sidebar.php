@@ -2,7 +2,7 @@
 
 return [
     'dashboard' => [
-        'route' => '/' ,
+        'route' => 'dashboard' ,
         'icon' => 'fas fa-chart-pie' ,
         'label' => 'لوحة التحكم ',
         'active' => ['/'] ,

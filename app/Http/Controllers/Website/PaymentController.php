@@ -42,7 +42,7 @@ class PaymentController extends Controller
         $gateway = PaymentManager::make('paymob') ;
         $payment = $gateway->verify($request) ; // data => [success , order , msg]
         if(! $payment['success']){
-            return to_route('order.payment.failed') ;
+            return to_route('order.payment.failed');
         }
         return to_route('order.payment.success' , $payment['order_number']) ;
     }

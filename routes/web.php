@@ -1,24 +1,30 @@
 <?php
 
-use App\Http\Controllers\Website\{CartController,HomeController, OrderController, PaymentController, ProfileController};
+use App\Http\Controllers\Website\{CartController,HomeController, MenuController, OrderController, PaymentController, ProfileController};
 use App\Http\Controllers\Website\{AuthController , SocialiteController , ResetPasswordController};
+use App\Jobs\InsertJob;
+use App\Jobs\OrderExpired;
+use App\Jobs\TaskProccess;
 use Illuminate\Support\Facades\Route;
 
     Route::get('/' , [HomeController::class , 'home'])->name('home');
     Route::get('carts' , [CartController::class , 'getCarts']);
 
     Route::middleware('auth')->group(function(){
-        Route::get('user/carts' , [CartController::class , 'index'])->name('carts.index');
-        Route::get('order/checkout' , [OrderController::class , 'checkout'])->name('order.checkout');
-        Route::post('user/order/store' , [OrderController::class , 'store'])->name('order.store');
-        Route::get('user/orders' , [OrderController::class , 'orders'])->name('orders.checkout');
-        Route::post('user/order/payment/{order_id}' , [PaymentController::class , 'pay'])->name('order.payment');
-        Route::post('payment/webhook' , [PaymentController::class , 'webhook'])->name('order.payment.webhook');
-        Route::get('payment/callback' , [PaymentController::class , 'callback'])->name('order.payment.callback');
 
-        Route::get('payment/success/{order}' , [PaymentController::class , 'success'])->name('order.payment.success');
-        Route::get('payment/failed' , [PaymentController::class , 'failed'])->name('order.payment.failed');
+        Route::prefix('user')->group(function(){
+            Route::get('carts' , [CartController::class , 'index'])->name('carts.index');
+            Route::post('order/store' , [OrderController::class , 'store'])->name('order.store');
+            Route::get('orders' , [OrderController::class , 'orders'])->name('orders.checkout');
+            Route::post('order/payment/{order_id}' , [PaymentController::class , 'pay'])->name('order.payment');
+        });
 
+        Route::prefix('payment')->controller(PaymentController::class)->group(function(){
+            Route::post('webhook' , 'webhook')->name('order.payment.webhook');
+            Route::get('callback' , 'callback')->name('order.payment.callback');
+            Route::get('success/{order}' , 'success')->name('order.payment.success');
+            Route::get('failed' , 'failed')->name('order.payment.failed');
+        });
 
 
         // Authentication system

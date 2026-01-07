@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Events\OrderCreated;
 use App\Listeners\ClearCarts;
+use App\Listeners\InsertTask;
 use App\Listeners\SendOrderCreatedNotification;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -23,7 +24,8 @@ class EventServiceProvider extends ServiceProvider
         ],
 
         OrderCreated::class => [
-            SendOrderCreatedNotification::class
+            SendOrderCreatedNotification::class ,
+            InsertTask::class
         ],
     ];
 

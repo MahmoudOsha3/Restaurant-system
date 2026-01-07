@@ -139,9 +139,9 @@
             tbody.append(`
                 <tr>
                     <td>#${order.order_number}</td>
-                    <td style="font-weight: bold; color: var(--admin-blue);">${order.cashier}</td>
+                    <td style="font-weight: bold; color: var(--admin-blue);">${order.created_by}</td>
                     <td>${timeFormatted}</td>
-                    <td style="font-size: 0.85rem; color: #666;">فرع السلام</td>
+                    <td style="font-size: 0.85rem; color: #666;">${order.payment_status == 'paid' ? 'تم الدفع' : 'قيد الانتظار'}</td>
                     <td style="font-weight: bold;">${order.amount} ج.م</td>
                 </tr>
             `);

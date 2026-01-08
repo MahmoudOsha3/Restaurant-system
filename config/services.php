@@ -46,6 +46,11 @@ return [
         'base_url' => env('PAYMOB_BASE_URL') ,
         'api_key' => env('PAYMOB_API_KEY'),
         'hmac_secret'   => env('PAYMOB_HMAC_SECRET'),
+    ],
+
+    'stripe' => [
+        'key' => env('STRIPE_PUBLISH_KEY'),
+        'secret' => env('STRIPE_SECRET'),
     ]
 
 ];

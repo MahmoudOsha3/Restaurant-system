@@ -55,8 +55,8 @@
             <p id="ordersCount">0 طلب</p>
         </div>
         <div class="stat-card">
-            <h4>عدد الوجبات المتاحة</h4>
-            <p id="mealsCount">0 وجبات</p>
+            <h4>مصروفات هذا الشهر</h4>
+            <p id="expensesOfMonth">0 ج.م</p>
         </div>
         <div class="stat-card">
             <h4>إجمالي أرباح اليوم</h4>
@@ -113,7 +113,7 @@
                 // 1. تحديث الأرقام
                 $('#totalProfit').text(parseFloat(d.profitOfMonth).toLocaleString() + ' ج.م');
                 $('#ordersCount').text(d.countOrders + ' طلب');
-                $('#mealsCount').text(d.countMeals + ' وجبات');
+                $('#expensesOfMonth').text(parseFloat(d.expensesOfMonth).toLocaleString() + 'ج.م');
                 $('#todayProfit').text(parseFloat(d.profitOfDay).toLocaleString() + ' ج.م');
 
                 // 2. تحديث الجدول

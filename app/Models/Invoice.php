@@ -16,7 +16,7 @@ class Invoice extends Model
     {
         static::creating(function (Invoice $invoice){
             $invoice->invoice_number = Invoice::getNextNumberInvoice() ;
-            $invoice->admin_id = 1 ;
+            $invoice->admin_id = 2 ;
         }) ;
     }
 

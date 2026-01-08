@@ -189,7 +189,7 @@
                         </div>
                     </td>
                     <td><strong style="color: #2f3542;">${item.description}</strong></td>
-                    <td><span class="amount-badge">-${parseFloat(item.amount).toLocaleString()} ج.م</span></td>
+                    <td><span class="amount-badge">${parseFloat(item.amount).toLocaleString()} ج.م</span></td>
                     <td>
                         <div class="d-flex align-items-center">
                             <div style="width: 30px; height: 30px; background: #eee; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-left: 8px;">
@@ -226,9 +226,6 @@
             url: url,
             method: method,
             data: data,
-            headers : {
-                'Authorization': 'Bearer ' + token,
-            } ,
             success: function() {
                 toastr.success('تم الحفظ بنجاح');
                 resetForm();
@@ -279,7 +276,7 @@
         let sum = data.reduce((acc, curr) => acc + parseFloat(curr.amount), 0);
         // عداد انيميشن للرقم
         $({ Counter: 0 }).animate({ Counter: sum }, {
-            duration: 800,
+            duration: 1000,
             step: function () {
                 $('#todaySum').text(Math.ceil(this.Counter).toLocaleString());
             }

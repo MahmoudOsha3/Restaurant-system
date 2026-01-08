@@ -4,6 +4,7 @@ namespace App\Repositories\Api ;
 
 use App\Interfaces\InvoiceRepositoryInterface;
 use App\Models\Invoice;
+use Carbon\Carbon;
 
 class InvoiceRepository implements InvoiceRepositoryInterface
 {
@@ -29,6 +30,12 @@ class InvoiceRepository implements InvoiceRepositoryInterface
     public function delete(Invoice $invoice)
     {
         $invoice->delete() ;
+    }
+
+    public function getExpensesOfMonth()
+    {
+        $expenses = Invoice::whereMonth('created_at' , now()->month)->sum('amount') ;
+        return $expenses ;
     }
 }
 

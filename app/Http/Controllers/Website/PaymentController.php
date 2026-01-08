@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Website;
 
 use App\Http\Controllers\Controller;
 use App\Jobs\SendMailPayment;
+use App\Payments\Gateways\StripeGateway;
 use App\Payments\PaymentManager;
 use App\Repositories\Api\OrderRepository;
 use Illuminate\Http\Request;
@@ -21,7 +22,7 @@ class PaymentController extends Controller
     public function pay(Request $request , $order_id)
     {
         $order = $this->orderRepository->getOrder($order_id);
-        $gateway = PaymentManager::make('paymob') ;
+        $gateway = PaymentManager::make('stripe') ;
         $payment = $gateway->pay(['amount' => $order->total ,'order_id' => $order->id , 'user' => auth()->user() ]) ;
         return $payment ;
     }
@@ -40,7 +41,7 @@ class PaymentController extends Controller
         if(! $payment['success']){
             return to_route('order.payment.failed');
         }
-        SendMailPayment::dispatch(auth()->user() , $payment['order']);
+        // SendMailPayment::dispatch(auth()->user() , $payment['order']);
         return to_route('order.payment.success' , $payment['order_number']) ;
     }
 

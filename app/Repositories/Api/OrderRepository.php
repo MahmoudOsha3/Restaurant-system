@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repositories\Dashboard ;
+namespace App\Repositories\Api ;
 
 use App\Events\OrderCreated;
 use App\Interfaces\OrderRepositoryInterface;
@@ -25,7 +25,7 @@ class OrderRepository implements OrderRepositoryInterface
 
     public function getOrders($request)
     {
-        $orders  = Order::with(['orderItems:id,order_id,meal_title,price,quantity,total' , 'admin:id,name'])
+        $orders  = Order::with(['orderItems:id,order_id,meal_title,price,quantity,total' , 'user:id,name,phone'])
             ->filter($request)->latest()->paginate(10);
         return $orders ;
     }

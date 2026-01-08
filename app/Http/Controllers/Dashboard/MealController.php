@@ -5,11 +5,9 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Dashboard\MealRequest;
 use App\Models\Meal;
-use App\Repositories\MealRepository;
-use App\Services\Meals\MealServices;
+use App\Repositories\Api\MealRepository;
 use App\Traits\ManageApiTrait;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class MealController extends Controller
 {

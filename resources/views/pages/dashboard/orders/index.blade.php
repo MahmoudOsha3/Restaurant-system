@@ -71,26 +71,12 @@
         <button class="btn-filter" onclick="fetchOrders(1)">تطبيق الفلتر</button>
     </div>
 
-    <div class="stats-row">
-        <div class="stat-card" style="border-right-color: var(--primary)">
-            <i class="fas fa-money-bill-wave" style="color: var(--primary)"></i>
-            <div><h3 id="statRevenue">0 ج.م</h3><p>المبيعات</p></div>
-        </div>
-        <div class="stat-card" style="border-right-color: var(--warning)">
-            <i class="fas fa-utensils" style="color: var(--warning)"></i>
-            <div><h3 id="statPreparing">0</h3><p>قيد التحضير</p></div>
-        </div>
-        <div class="stat-card" style="border-right-color: var(--success)">
-            <i class="fas fa-check-double" style="color: var(--success)"></i>
-            <div><h3 id="statDelivered">0</h3><p>تم التوصيل</p></div>
-        </div>
-    </div>
 
     <table class="orders-table">
         <thead>
             <tr>
                 <th>رقم الطلب</th>
-                <th>الكاشير / الفرع</th>
+                <th>العميل</th>
                 <th>محتوى الطلب</th>
                 <th>الإجمالي</th>
                 <th>الحالة</th>
@@ -170,19 +156,19 @@
 
     function renderTable(orders) {
         const tbody = $('#ordersBody').empty();
-        orders.forEach(o => {
-            let items = o.order_items.map(i => `• ${i.meal_title} (x${i.quantity})`).join('<br>');
+        orders.forEach(order => {
+            let items = order.order_items.map(i => `• ${i.meal_title} (x${i.quantity})`).join('<br>');
             tbody.append(`
                 <tr>
-                    <td><b>#${o.order_number}</b><br><small style="color:#999">${o.created_at}</small></td>
-                    <td><b>${o.admin ? o.admin.name : 'نظام'}</b><br><small>فرع السلام</small></td>
+                    <td><b>#${order.order_number}</b><br><small style="color:#999">${order.created_at}</small></td>
+                    <td><b>${order.user ? order.user.name : 'نظام'}</b><br><small>${order.user.phone}</small></td>
                     <td style="font-size:0.85rem">${items}</td>
-                    <td style="font-weight:bold; color:var(--primary)">${o.total} ج.م</td>
-                    <td><span class="status-pill ${getStatusClass(o.status)}">${getStatusName(o.status)}</span></td>
+                    <td style="font-weight:bold; color:var(--primary)">${order.total} ج.م</td>
+                    <td><span class="status-pill ${getStatusClass(order.payment_status)}">${getStatusName(order.payment_status)}</span></td>
                     <td>
                         <div class="action-btns">
-                            <button class="btn-round" style="background:var(--info)" onclick="openView(${o.id})"><i class="fas fa-eye"></i></button>
-                            <button class="btn-round" style="background:var(--success)" onclick="openStatus(${o.id}, '${o.order_number}')"><i class="fas fa-sync-alt"></i></button>
+                            <button class="btn-round" style="background:var(--info)" onclick="openView(${order.id})"><i class="fas fa-eye"></i></button>
+                            <button class="btn-round" style="background:var(--success)" onclick="openStatus(${order.id}, '${order.order_number}')"><i class="fas fa-sync-alt"></i></button>
                         </div>
                     </td>
                 </tr>
@@ -245,7 +231,7 @@
     }
 
     function closeModals() { $('.modal-overlay').hide(); }
-    function getStatusClass(s) { return s === 'pending' ? 'status-pending' : s === 'preparing' ? 'status-preparing' : 'status-delivered'; }
-    function getStatusName(s) { return s === 'pending' ? 'انتظار' : s === 'preparing' ? 'تحضير' : 'تم التوصيل'; }
+    function getStatusClass(s) { return s === 'unpaid' ? 'status-pending' : s === 'paid' ? 'status-preparing' : 'status-delivered'; }
+    function getStatusName(s) { return s === 'unpaid' ? 'قيد الانتظار' : s === 'paid' ? 'تم الدفع' : 'فشلت العملية'; }
 </script>
 @endsection

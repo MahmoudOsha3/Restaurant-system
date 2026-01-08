@@ -4,7 +4,7 @@ namespace App\Services\Payment\Paymob\Webhook ;
 
 use App\Models\Order;
 use App\Models\Payment;
-use App\Repositories\Dashboard\OrderRepository;
+use App\Repositories\Api\OrderRepository;
 
 
 class PaymobCheckProccessService

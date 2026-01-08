@@ -4,7 +4,6 @@ namespace App\Services\Payment\Paymob ;
 
 use App\Services\Payment\Paymob\CreateIFrame\PaymobKeyService ;
 use App\Services\Payment\Paymob\Webhook\{PaymobCheckProccessService , PaymobVerifyHmacSerice};
-use Illuminate\Support\Facades\Log;
 
 class PaymobService
 {

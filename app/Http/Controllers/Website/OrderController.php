@@ -3,11 +3,10 @@
 namespace App\Http\Controllers\Website;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Website\OrderRequest;
 use App\Models\Cart;
 use App\Models\Order;
-use App\Repositories\Dashboard\CartRepository;
-use App\Repositories\Dashboard\OrderRepository;
+use App\Repositories\Api\CartRepository;
+use App\Repositories\Api\OrderRepository;
 use App\Services\Orders\OrderServices;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;

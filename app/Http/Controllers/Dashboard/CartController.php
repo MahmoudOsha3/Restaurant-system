@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Dashboard\CartRequest;
 use App\Models\Cart;
-use App\Repositories\Dashboard\CartRepository;
+use App\Repositories\Api\CartRepository;
 use App\Traits\ManageApiTrait;
 use Illuminate\Http\Request;
 

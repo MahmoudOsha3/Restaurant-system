@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repositories\Dashboard ;
+namespace App\Repositories\Api ;
 
 use App\Interfaces\InvoiceRepositoryInterface;
 use App\Models\Invoice;

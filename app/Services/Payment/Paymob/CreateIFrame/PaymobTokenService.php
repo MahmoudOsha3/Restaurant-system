@@ -8,7 +8,7 @@ class PaymobTokenService
     public static function getCachedToken()
     {
         $cacheKey = 'paymob_auth_token';
-
+        
         return Cache::remember($cacheKey, 3600, function () {
             return self::generateToken() ;
         });

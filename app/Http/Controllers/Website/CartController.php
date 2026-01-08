@@ -4,13 +4,9 @@ namespace App\Http\Controllers\Website;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Dashboard\CartRequest;
-use App\Models\Cart;
-use App\Repositories\Dashboard\CartRepository;
-use App\Repositories\Dashboard\OrderRepository;
+use App\Repositories\Api\CartRepository;
 use App\Services\Orders\OrderServices;
 use App\Traits\ManageApiTrait;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
 
 class CartController extends Controller
 {

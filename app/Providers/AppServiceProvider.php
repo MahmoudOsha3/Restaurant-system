@@ -3,8 +3,7 @@
 namespace App\Providers;
 
 use App\Interfaces\{CartRepositoryInterface , InvoiceRepositoryInterface, MealRepositoryInterface , OrderRepositoryInterface ,OrderItemRepositoryInterface};
-use App\Repositories\{MealRepository};
-use App\Repositories\Dashboard\{CartRepository , InvoiceRepository, OrderRepository , OrderItemRepository};
+use App\Repositories\Api\{CartRepository , InvoiceRepository, OrderRepository , OrderItemRepository , MealRepository};
 
 use Illuminate\Support\ServiceProvider;
 

@@ -3,14 +3,10 @@
 namespace App\Http\Controllers\Website;
 
 use App\Http\Controllers\Controller;
-use App\Models\Order;
-use App\Models\Payment;
-use App\Payments\Gateways\PaymobGateway;
+use App\Jobs\SendMailPayment;
 use App\Payments\PaymentManager;
-use App\Repositories\Dashboard\OrderRepository;
-use App\Services\Payment\Paymob\PaymobVerifyHmacSerice;
+use App\Repositories\Api\OrderRepository;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class PaymentController extends Controller
 {
@@ -44,6 +40,7 @@ class PaymentController extends Controller
         if(! $payment['success']){
             return to_route('order.payment.failed');
         }
+        SendMailPayment::dispatch(auth()->user() , $payment['order']);
         return to_route('order.payment.success' , $payment['order_number']) ;
     }
 

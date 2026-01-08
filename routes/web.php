@@ -23,7 +23,7 @@ use Illuminate\Support\Facades\Route;
             Route::post('webhook' , 'webhook')->name('order.payment.webhook');
             Route::get('callback' , 'callback')->name('order.payment.callback');
             Route::get('success/{order}' , 'success')->name('order.payment.success');
-            Route::get('failed' , 'failed')->name('order.payment.failed');
+            Route::get('failed/{order}' , 'failed')->name('order.payment.failed');
         });
 
 

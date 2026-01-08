@@ -4,8 +4,7 @@ namespace App\Http\Controllers\Website;
 
 use App\Http\Controllers\Controller;
 use App\Models\Meal;
-use App\Repositories\Dashboard\CategoriesRepository;
-use Illuminate\Http\Request;
+use App\Repositories\Api\CategoriesRepository;
 
 class HomeController extends Controller
 {

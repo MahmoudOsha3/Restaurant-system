@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
-use App\Repositories\Dashboard\OrderRepository;
-use App\Repositories\MealRepository;
+use App\Repositories\Api\OrderRepository;
+use App\Repositories\Api\MealRepository;
 use App\Services\Home\LatestOrdersServices;
 use App\Services\Home\ManageDataService;
 use App\Services\Home\ProfitService;

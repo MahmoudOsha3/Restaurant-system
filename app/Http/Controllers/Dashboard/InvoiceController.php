@@ -6,11 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Dashboard\InvoiceRequest;
 use App\Models\Invoice;
 use App\Models\Order;
-use App\Repositories\Dashboard\InvoiceRepository;
-use App\Repositories\Dashboard\OrderRepository;
-use App\Services\Invoice\InvoiceService;
+use App\Repositories\Api\InvoiceRepository;
 use App\Traits\ManageApiTrait;
-use Illuminate\Http\Request;
 
 class InvoiceController extends Controller
 {

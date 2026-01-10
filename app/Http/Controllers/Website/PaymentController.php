@@ -22,7 +22,7 @@ class PaymentController extends Controller
     public function pay(Request $request , $order_id)
     {
         $order = $this->orderRepository->getOrder($order_id);
-        $gateway = PaymentManager::make('stripe') ;
+        $gateway = PaymentManager::make($request->gateway) ;
         $payment = $gateway->pay(['amount' => $order->total ,'order_id' => $order->id , 'user' => auth()->user() ]) ;
         return $payment ;
     }
@@ -36,13 +36,13 @@ class PaymentController extends Controller
     // Only Test because XAMPP not support SSL to excute it in webhook
     public function callback(Request $request)
     {
-        $gateway = PaymentManager::make('paymob') ;
+        $gateway = PaymentManager::make($request->route('gateway')) ;
         $payment = $gateway->verify($request) ; // data => [success , order , msg]
         if(! $payment['success']){
-            return to_route('order.payment.failed');
+            return to_route('orders.checkout')->with('error' , 'فشلت العملية') ;
         }
         // SendMailPayment::dispatch(auth()->user() , $payment['order']);
-        return to_route('order.payment.success' , $payment['order_number']) ;
+        return to_route('orders.checkout')->with('success' , 'تم الدفع بنجاح') ;
     }
 
     public function success($order_number)

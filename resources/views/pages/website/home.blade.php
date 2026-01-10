@@ -13,8 +13,8 @@
             <h1 class="animate-up">مذاق الأصالة العربية</h1>
             <p class="animate-up">نأخذك في رحلة إلى عالم النكهات المطهوة ببطء على الطريقة التقليدية</p>
             <div class="hero-btns animate-up">
-                <a href="#menu" class="btn-main">استعرض القائمة <i class="fas fa-utensils"></i></a>
-                <a href="#booking" class="btn-outline">حجز طاولة</a>
+                <a href="{{ route('menu.index') }}" class="btn-main">استعرض القائمة <i class="fas fa-utensils"></i></a>
+                <a href="#" class="btn-outline">حجز طاولة</a>
             </div>
         </div>
     </section>
@@ -115,6 +115,7 @@
             },
             success : function(){
                 fetchCarts() ;
+                toastr.success('تم إدخال العنصر الي السلة') ;
             },
             error: function(xhr){
                 console.log(xhr.responseJSON?.message);

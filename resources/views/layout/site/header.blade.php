@@ -18,8 +18,8 @@
         <div class="logo">شيخ <span>المندي</span></div>
         <nav>
             <ul class="nav-links">
-                <li><a href="#home">الرئيسية</a></li>
-                <li><a href="#menu">القائمة الملكية</a></li>
+                <li><a href="{{ route('home') }}">الرئيسية</a></li>
+                <li><a href="{{ route('menu.index') }}">القائمة الملكية</a></li>
                 <li><a href="#about">حكايتنا</a></li>
                 <li><a href="#booking">الحجز</a></li>
             </ul>

@@ -33,8 +33,9 @@ class CategoryController extends Controller
         return response()->json(['data' => $category] , 201) ;
     }
 
-    public function show(Category $category)
+    public function show($category)
     {
+        $category = Category::with('meals')->where('id' , $category)->get();
         return response()->json(['data' => $category] , 200) ;
     }
 
@@ -49,4 +50,5 @@ class CategoryController extends Controller
         $category->delete();
         return response()->json(['Msg' => 'Category is delete'] , 200) ;
     }
+
 }

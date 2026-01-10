@@ -2,13 +2,11 @@
 
 use App\Http\Controllers\Website\{CartController,HomeController, MenuController, OrderController, PaymentController, ProfileController};
 use App\Http\Controllers\Website\{AuthController , SocialiteController , ResetPasswordController};
-use App\Jobs\InsertJob;
-use App\Jobs\OrderExpired;
-use App\Jobs\TaskProccess;
 use Illuminate\Support\Facades\Route;
 
     Route::get('/' , [HomeController::class , 'home'])->name('home');
     Route::get('carts' , [CartController::class , 'getCarts']);
+    Route::get('menu' , [MenuController::class , 'index'])->name('menu.index');
 
     Route::middleware('auth')->group(function(){
 
@@ -20,8 +18,8 @@ use Illuminate\Support\Facades\Route;
         });
 
         Route::prefix('payment')->controller(PaymentController::class)->group(function(){
-            Route::post('webhook' , 'webhook')->name('order.payment.webhook');
-            Route::get('callback' , 'callback')->name('order.payment.callback');
+            Route::post('webhook/{gateway}' , 'webhook')->name('order.payment.webhook');
+            Route::get('callback/{gateway}' , 'callback')->name('order.payment.callback');
             Route::get('success/{order}' , 'success')->name('order.payment.success');
             Route::get('failed/{order}' , 'failed')->name('order.payment.failed');
         });

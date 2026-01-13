@@ -40,10 +40,10 @@ return [
     ] ,
 
     'reports' => [
-        'route' => '/cashier/reports' ,
+        'route' => '/cashier/history' ,
         'icon' => 'fas fa-history' ,
         'label' => 'السجل والتقارير',
-        'active' => ['cashier/reports']  ,
+        'active' => ['cashier/history']  ,
         'permission' => '' ,
     ],
 

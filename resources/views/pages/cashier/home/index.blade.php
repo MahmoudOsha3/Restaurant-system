@@ -100,7 +100,6 @@
 <script>
     let carts = [];
     let currentTotal = 0;
-    // جلب النسبة من الإعدادات (Laravel Config)
     const tax = {{ config('order.tax') }};
 
     $(document).ready(function(){

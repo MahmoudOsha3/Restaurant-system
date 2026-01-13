@@ -36,7 +36,13 @@ class CashierController extends Controller
         return $this->successApi($order , 'Order Created successfully') ;
     }
 
-    public function history(Request $request)
+    public function history()
+    {
+        return view('pages.cashier.history.index');
+
+    }
+
+    public function getOrdersHistory(Request $request)
     {
         $history = $this->orderRepository->getHistoryOrdersTheDay($request);
         return $this->successApi($history ,'History fetched successfully') ;

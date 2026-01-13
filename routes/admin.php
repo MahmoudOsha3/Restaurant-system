@@ -24,7 +24,8 @@ Route::middleware(['auth:admin'])->group(function(){
         Route::get('/' , [CashierController::class , 'index']) ;
         Route::resource('carts' , CartController::class) ;
         Route::post('order' , [CashierController::class , 'createOrder']) ;
-        Route::get('history', [CashierController::class ,'history']);
+        Route::get('history', [CashierController::class ,'history']); // view
+        Route::get('history/log', [CashierController::class ,'getOrdersHistory']) ;
     });
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

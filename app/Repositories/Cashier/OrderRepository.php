@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Repositories\Api\CartRepository;
 use App\Repositories\Api\OrderItemRepository;
 use App\Services\Orders\OrderServices;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\DB;
 
@@ -26,10 +27,25 @@ class OrderRepository
 
     public function getHistoryOrdersTheDay($request)
     {
-        $orders  = Order::cashier()->whereDate('created_at' , today())
-            ->with(['orderItems:id,order_id,meal_title,price,quantity,total'])
-            ->filter($request)->latest()->paginate(10);
-        return $orders ;
+        $query = Order::cashier()
+            ->whereDate('created_at', Carbon::today());
+
+        $stats = [
+            'total_price'  => $query->clone()->sum('total'),
+            'count_orders' => $query->clone()->count(),
+        ];
+
+        $orders = $query->with([
+                'orderItems:id,order_id,meal_title,price,quantity,total'
+            ])
+            ->filter($request)
+            ->latest()
+            ->paginate(30);
+
+        return [
+            'stats'  => $stats,
+            'orders' => $orders,
+        ];
     }
 
     public function create($adminId)

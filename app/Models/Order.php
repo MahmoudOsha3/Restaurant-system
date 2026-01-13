@@ -39,6 +39,11 @@ class Order extends Model
         }) ;
     }
 
+    public function scopeCashier(Builder $builder)
+    {
+        $builder->where('admin_id', auth()->user()->id) ;
+    }
+
 
 
     public static function getNextNumberOrder()

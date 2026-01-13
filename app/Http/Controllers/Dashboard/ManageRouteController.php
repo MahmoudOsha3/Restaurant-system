@@ -41,6 +41,11 @@ class ManageRouteController extends Controller
         return view('pages.dashboard.invoices.index') ;
     }
 
+    public function cashier()
+    {
+        return view('pages.cashier.index');
+    }
+
 
 
 

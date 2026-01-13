@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Repositories\Api ;
+namespace App\Repositories\Cashier ;
 
-use App\Events\OrderCreated;
-use App\Interfaces\OrderRepositoryInterface;
+use App\Models\Cart;
 use App\Models\Order;
+use App\Repositories\Api\CartRepository;
+use App\Repositories\Api\OrderItemRepository;
 use App\Services\Orders\OrderServices;
 use Exception;
 use Illuminate\Support\Facades\DB;
 
-class OrderRepository implements OrderRepositoryInterface
+class OrderRepository
 {
     protected $orderService , $cartRepository , $orderItemRepository ;
 
@@ -23,37 +24,39 @@ class OrderRepository implements OrderRepositoryInterface
 
     }
 
-    public function getOrders($request)
+    public function getHistoryOrdersTheDay($request)
     {
-        $orders  = Order::with(['orderItems:id,order_id,meal_title,price,quantity,total' , 'user:id,name,phone' , 'admin:id,name'])
+        $orders  = Order::cashier()->whereDate('created_at' , today())
+            ->with(['orderItems:id,order_id,meal_title,price,quantity,total'])
             ->filter($request)->latest()->paginate(10);
         return $orders ;
     }
 
-    public function create($userId)
+    public function create($adminId)
     {
         DB::beginTransaction() ;
         try{
-            $carts = $this->cartRepository->getCarts($userId);
+            $carts = Cart::where('admin_id' , $adminId)->get() ;
             if ($carts->isEmpty()) {
                 throw new Exception('Cart is empty');
             }
 
             $subTotal = $this->orderService->subTotalOrder($carts) ;
-            $total = $this->orderService->totalOrder($subTotal);
+            $total = $this->orderService->totalOnSite($subTotal) ;
             $order = Order::create([
-                'user_id' =>  $userId,
-                'type' => 'online' ,
+                'admin_id' =>  $adminId ,
+                'type' => 'onsite' ,
                 'subtotal' => $subTotal ,
                 'tax' => config('order.tax') * $subTotal ,
-                'delivery_fee' => config('order.delivery_fee') ,
-                'total' => $total
+                'delivery_fee' => 0 ,
+                'total' => $total,
+                'payment_status' => 'paid' ,
+                'status' => 'completed'
             ]);
             $this->orderItemRepository->create($order , $carts);
             $this->cartRepository->deleteAll($carts) ;
 
             DB::commit() ;
-            event(new OrderCreated($order)) ; // send Notify using Pusher and store in DB => (using Queue)
             return $order ;
         }
         catch(\Exception $e)

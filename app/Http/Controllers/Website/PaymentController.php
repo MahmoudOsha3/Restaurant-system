@@ -44,14 +44,4 @@ class PaymentController extends Controller
         // SendMailPayment::dispatch(auth()->user() , $payment['order']);
         return to_route('orders.checkout')->with('success' , 'تم الدفع بنجاح') ;
     }
-
-    public function success($order_number)
-    {
-        return view('pages.website.payment.success' , compact('order_number')) ;
-    }
-
-    public function failed()
-    {
-        return view('pages.website.payment.failed') ;
-    }
 }

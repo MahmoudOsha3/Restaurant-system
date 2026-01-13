@@ -12,6 +12,7 @@ class CategoryController extends Controller
 {
     use ManageApiTrait ;
 
+    // it can use CategoryRepo without controller but for only testing
     public function index()
     {
         try

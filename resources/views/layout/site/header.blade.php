@@ -36,7 +36,7 @@
                         <a href="{{ route('orders.checkout') }}"><i class="fas fa-history"></i> طلباتي</a>
                         <a href="{{ route('user.profile') }}"><i class="fas fa-cog"></i> ملفي الشخصي</a>
                         <hr>
-                        <form action="{{ route('auth.logout') }}" method="POST" id="logout-form">
+                        <form method="POST" action="{{ route('auth.logout') }}" id="logout-form">
                             @csrf
                             <button type="submit" class="logout-btn-link">
                                 <i class="fas fa-sign-out-alt"></i> تسجيل الخروج

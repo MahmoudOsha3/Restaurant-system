@@ -16,8 +16,7 @@ class CartRequest extends FormRequest
     public function rules()
     {
         $rules =  [
-            'admin_id' => 'nullable|exists:admins,id',
-            'user_id' => 'nullable|exists:users,id',
+            'admin_id' => 'required|exists:admins,id',
             'quantity' => 'required|integer|in:1,-1',
         ];
 

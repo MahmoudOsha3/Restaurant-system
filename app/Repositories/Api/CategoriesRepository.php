@@ -21,8 +21,8 @@ class CategoriesRepository
 
     public function create($validated)
     {
-        $cart = Category::create($validated) ;
-        return $cart ;
+        $category = Category::create($validated) ;
+        return $category ;
     }
 
     public function update($request , $category)

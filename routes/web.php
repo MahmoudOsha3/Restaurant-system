@@ -20,8 +20,6 @@ use Illuminate\Support\Facades\Route;
         Route::prefix('payment')->controller(PaymentController::class)->group(function(){
             Route::post('webhook/{gateway}' , 'webhook')->name('order.payment.webhook');
             Route::get('callback/{gateway}' , 'callback')->name('order.payment.callback');
-            Route::get('success/{order}' , 'success')->name('order.payment.success');
-            Route::get('failed/{order}' , 'failed')->name('order.payment.failed');
         });
 
 

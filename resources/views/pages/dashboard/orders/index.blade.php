@@ -161,7 +161,7 @@
             tbody.append(`
                 <tr>
                     <td><b>#${order.order_number}</b><br><small style="color:#999">${order.created_at}</small></td>
-                    <td><b>${order.user ? order.user.name : 'نظام'}</b><br><small>${order.user.phone}</small></td>
+                    <td><b>${order.user ? order.user.name : order.admin.name }</b><br><small>${order.user ? order.user.phone : 'كاشير'}</small></td>
                     <td style="font-size:0.85rem">${items}</td>
                     <td style="font-weight:bold; color:var(--primary)">${order.total} ج.م</td>
                     <td><span class="status-pill ${getStatusClass(order.payment_status)}">${getStatusName(order.payment_status)}</span></td>

@@ -31,6 +31,21 @@ return [
         'permission' => '' ,
     ] ,
 
+    'cashier' => [
+        'route' => '/cashier' ,
+        'icon' => 'fas fa-plus-circle' ,
+        'label' => 'الكاشير',
+        'active' => ['cashier']  ,
+        'permission' => '' ,
+    ] ,
+
+    'reports' => [
+        'route' => '/cashier/reports' ,
+        'icon' => 'fas fa-history' ,
+        'label' => 'السجل والتقارير',
+        'active' => ['cashier/reports']  ,
+        'permission' => '' ,
+    ],
 
     'admins' => [
         'route' => '/admins' ,

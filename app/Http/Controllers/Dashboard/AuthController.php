@@ -15,7 +15,7 @@ class AuthController extends Controller
 
     public function loginView()
     {
-        return view('pages.login') ;
+        return view('pages.dashboard.auth.login');
     }
 
     public function login(Request $request)

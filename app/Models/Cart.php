@@ -25,6 +25,13 @@ class Cart extends Model
         });
     }
 
+    public function scopeCashier(Builder $builder , $request)
+    {
+        $builder->when($request->meal_id , function($builder , $mealId){
+            $builder->where('admin_id' , auth()->user()->id )->where('meal_id', $mealId) ;
+        });
+    }
+
     public static function getCookieId()
     {
         $cookieId = Cookie::get('cart_id') ;

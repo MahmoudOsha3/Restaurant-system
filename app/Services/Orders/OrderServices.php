@@ -26,6 +26,13 @@ class OrderServices
         return $total ;
     }
 
+    public function totalOnSite($subTotal)
+    {
+        $taxRate = config('order.tax') ;
+        $total = $subTotal + ($subTotal * $taxRate) ;
+        return $total ;
+    }
+
     public static function updateForPayment($order_id)
     {
         Order::where('id', $order_id)->update([

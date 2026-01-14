@@ -8,25 +8,22 @@ use App\Models\Meal;
 use App\Repositories\Api\MealRepository;
 use App\Traits\ManageApiTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MealController extends Controller
 {
     protected $meal ;
     use ManageApiTrait ;
+
     public function __construct(MealRepository $meal)
     {
         $this->meal = $meal;
-
+        // $this->authorizeResource(Meal::class);
     }
     public function index(Request $request)
     {
         $meals = $this->meal->getAll($request) ;
         return $this->successApi($meals , 'The data was successfully extracted') ;
-    }
-
-    public function create()
-    {
-        return view('index') ;
     }
 
     public function store(MealRequest $request)

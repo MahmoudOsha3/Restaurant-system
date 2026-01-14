@@ -3,9 +3,10 @@
 namespace App\Policies\Dashboard;
 
 use App\Models\User;
+use App\Policies\ModelPolicy;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class RolePolicy
+class RolePolicy  extends ModelPolicy
 {
     use HandlesAuthorization;
 

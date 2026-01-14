@@ -16,7 +16,6 @@ class AdminController extends Controller
     {
         $admins = Admin::with('role')->paginate(10) ;
         return $this->successApi($admins , 'Admins fetched successfully') ;
-
     }
 
 

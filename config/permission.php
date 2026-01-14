@@ -2,6 +2,8 @@
 
 
 return [
+    'dashboard.view' => 'Dashboard view' ,
+
     'meal.view' => 'Meals View' ,
     'meal.create' => 'Meal Create' ,
     'meal.show' => 'Meal Show' ,
@@ -40,6 +42,15 @@ return [
     'role_permission.update' => 'Edit Permission of role' ,
     'role_permission.delete' => 'Delete Permission of role' ,
 
+    'invoice.view' => 'Invoices View' ,
+    'invoice.create' => 'Invoice Create' ,
+
+    'cashier.view' => 'Cashier view' ,
+    'cashier.create'=> 'Cashier Create Order' ,
+    'cashier.show' => 'Cashier History',
+
+    'report.view' => 'Reports View' ,
+    'report.create' => 'Report Create' ,
 ];
 
 

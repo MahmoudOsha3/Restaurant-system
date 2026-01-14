@@ -5,22 +5,22 @@ return [
         'route' => 'dashboard' ,
         'icon' => 'fas fa-chart-pie' ,
         'label' => 'لوحة التحكم ',
-        'active' => ['/'] ,
-        'permission' => '' ,
+        'active' => ['dashboard'] ,
+        'permission' => 'dashboard.view',
     ] ,
     'category' => [
         'route' => '/categories' ,
         'icon' => 'fas fa-list' ,
         'label' => 'اقسام الطعام',
         'active' => ['categories'] ,
-        'permission' => ''  ,
-    ] ,
+        'permission' => 'category.view'  ,
+    ],
     'meals' => [
         'route' => '/meals' ,
         'icon' => 'fas fa-chart-pie' ,
         'label' => 'الواجبات',
         'active' => ['meals']  ,
-        'permission' => '' ,
+        'permission' => 'meal.view' ,
     ] ,
 
     'orders' => [
@@ -28,7 +28,7 @@ return [
         'icon' => 'fas fa-desktop' ,
         'label' => 'مراقبة الطلبات ',
         'active' => ['orders']  ,
-        'permission' => '' ,
+        'permission' => 'order.view' ,
     ] ,
 
     'cashier' => [
@@ -36,23 +36,40 @@ return [
         'icon' => 'fas fa-plus-circle' ,
         'label' => 'الكاشير',
         'active' => ['cashier']  ,
-        'permission' => '' ,
+        'permission' => 'cashier.view' ,
     ] ,
 
-    'reports' => [
+
+    'history' => [
         'route' => '/cashier/history' ,
         'icon' => 'fas fa-history' ,
-        'label' => 'السجل والتقارير',
+        'label' => 'سجل طلبات',
         'active' => ['cashier/history']  ,
-        'permission' => '' ,
+        'permission' => 'cashier.show' ,
     ],
+
+    'call-center' => [
+        'route' => '/call-center' ,
+        'icon' => 'fas fa-plus-circle' ,
+        'label' => 'كول سنتر',
+        'active' => ['call-center']  ,
+        'permission' => 'cashier.view' ,
+    ],
+
+    'history-call-center' => [
+        'route' => '/call-center/history' ,
+        'icon' => 'fas fa-plus-circle' ,
+        'label' => 'سجل العمليات',
+        'active' => ['call-center/history']  ,
+        'permission' => 'cashier.show' ,
+    ] ,
 
     'admins' => [
         'route' => '/admins' ,
         'icon' => 'fas fa-users' ,
         'label' => 'المواظفين',
         'active' => ['admins']  ,
-        'permission' => '' ,
+        'permission' => 'admin.view' ,
     ] ,
 
     'roles' => [
@@ -60,15 +77,21 @@ return [
         'icon' => 'fas fa-user-shield' ,
         'label' => 'الادوار والصلاحيات',
         'active' => ['roles']  ,
-        'permission' => '' ,
+        'permission' => 'role.view' ,
     ] ,
     'invoice' => [
         'route' => '/invoices' ,
         'icon' => 'fas fa-receipt' ,
         'label' => 'إدارة المصاريف والفواتير',
         'active' => ['invoices']  ,
-        'permission' => '' ,
+        'permission' => 'invoice.view' ,
     ] ,
 
-
+    'reports' => [
+        'route' => '/reports' ,
+        'icon' => 'fas fa-chart-line' ,
+        'label' => 'السجل والتقرير',
+        'active' => ['reports']  ,
+        'permission' => 'report.view',
+    ] ,
 ] ;

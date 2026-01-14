@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\Cashier;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Dashboard\CartRequest;
-use App\Models\Cart;
+use App\Models\Admin;
 use App\Repositories\Api\CartRepository;
 use App\Repositories\Api\MealRepository;
 use App\Repositories\Cashier\OrderRepository;
@@ -25,25 +24,27 @@ class CashierController extends Controller
 
     public function index(Request $request)
     {
-        $carts = $this->cartRepository->getCarts();
+        $this->authorize("cashierView" , Admin::class) ;
         $meals = $this->mealRepository->getAll($request) ;
-        return view('pages.cashier.home.index' , compact('carts' , 'meals')) ;
+        return view('pages.cashier.home.index' , compact('meals')) ;
     }
 
     public function createOrder()
     {
+        $this->authorize("cashierCreate" , Admin::class) ;
         $order = $this->orderRepository->create(auth()->user()->id) ;
         return $this->successApi($order , 'Order Created successfully') ;
     }
 
     public function history()
     {
+        $this->authorize("cashierHistory" , Admin::class) ;
         return view('pages.cashier.history.index');
-
     }
 
     public function getOrdersHistory(Request $request)
     {
+        $this->authorize("cashierHistory" , Admin::class) ;
         $history = $this->orderRepository->getHistoryOrdersTheDay($request);
         return $this->successApi($history ,'History fetched successfully') ;
     }

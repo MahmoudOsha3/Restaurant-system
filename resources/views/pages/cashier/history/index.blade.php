@@ -123,7 +123,7 @@
 <div id="app">
     <div class="main-container">
         <header>
-            <h3>شاشة الكاشير</h3>
+            <h3>{{ auth()->user()->role->name == 'Call center' ? 'سجل العمليات' : 'سجل الطلبات'   }}</h3>
             <div style="font-weight: bold; color: var(--dark);">
                 {{ auth()->user()->name }} <i class="fas fa-user-shield" style="margin-right: 5px; color: var(--primary);"></i>
             </div>

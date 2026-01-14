@@ -33,7 +33,7 @@
     </div>
 
     <div class="menu-container" style="padding: 10px; flex-grow: 1;">
-        @foreach (config('sidebar') as $key => $properties )
+        @foreach (App\Services\Sidebar\SidebarService::items() as $key => $properties)
             <a href="{{ url($properties['route']) }}" style="text-decoration: none; display: block; margin-bottom: 4px;">
                 <div style="padding: 10px 15px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; transition: 0.2s;
                     {{ $isActive($properties['active'])

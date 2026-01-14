@@ -17,7 +17,6 @@ class CategoryController extends Controller
     {
         try
         {
-            // $this->authorize('viewAny' , Category::class );
             $categories = Category::withCount('meals')->latest()->get() ;
             return $this->successApi($categories , 'Categories fetched successfully') ;
         }

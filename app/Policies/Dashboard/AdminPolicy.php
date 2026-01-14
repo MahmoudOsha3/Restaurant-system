@@ -2,21 +2,17 @@
 
 namespace App\Policies\Dashboard;
 
-use App\Models\User;
+use App\Models\Admin;
 use App\Policies\ModelPolicy;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class OrderPolicy extends ModelPolicy
+class AdminPolicy extends ModelPolicy
 {
     use HandlesAuthorization;
 
-    /**
-     * Create a new policy instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         //
     }
+
 }

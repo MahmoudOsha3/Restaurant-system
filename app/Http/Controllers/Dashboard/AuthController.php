@@ -34,6 +34,11 @@ class AuthController extends Controller
         }
         Auth::guard('admin')->login($admin);
         $request->session()->regenerate();
+
+        if($admin->role->name == 'cashier' || $admin->role->name == 'Call center'){
+            return to_route('cashier.home') ;
+        }
+
         return to_route('dashboard') ;
     }
 

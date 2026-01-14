@@ -18,10 +18,11 @@ Route::middleware(['auth:admin'])->group(function(){
         Route::get('/admins' , 'admins') ;
         Route::get('/roles' , 'roles') ;
         Route::get('/invoices' , 'invoices') ;
+        Route::get('/reports' , 'reports') ;
     });
 
     Route::prefix('cashier')->name('cashier.')->group(function (){
-        Route::get('/' , [CashierController::class , 'index']) ;
+        Route::get('/' , [CashierController::class , 'index'])->name('home') ;
         Route::resource('carts' , CartController::class) ;
         Route::post('order' , [CashierController::class , 'createOrder']) ;
         Route::get('history', [CashierController::class ,'history']); // view

@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Dashboard\{AdminController, AuthController, CartController, CategoryController , HomeController, InvoiceController, MealController, OrderController, RoleController};
-
+use App\Http\Controllers\Dashboard\{AdminController, CategoryController , HomeController, InvoiceController, MealController, OrderController, RoleController, UserController};
+use App\Http\Controllers\Website\CartController ;
 
 
 // Route::middleware('auth:sanctum')->group(function(){
@@ -12,8 +12,10 @@ use App\Http\Controllers\Dashboard\{AdminController, AuthController, CartControl
     Route::apiResource('meal' , MealController::class) ;
     Route::apiResource('role' , RoleController::class) ;
     Route::get('get/roles' , [RoleController::class , 'getRoles']) ;
-    Route::apiResource('cart' , CartController::class) ;
+    Route::apiResource('cart' , CartController::class) ; // this api for only website
     Route::apiResource('orders' , OrderController::class) ;
     Route::apiResource('invoice' , InvoiceController::class) ;
+    Route::apiResource('users' , UserController::class) ;
+
 // });
 

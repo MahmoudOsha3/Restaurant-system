@@ -19,6 +19,7 @@ Route::middleware(['auth:admin'])->group(function(){
         Route::get('/roles' , 'roles') ;
         Route::get('/invoices' , 'invoices') ;
         Route::get('/reports' , 'reports') ;
+        Route::get('/users' , 'users') ;
     });
 
     Route::prefix('cashier')->name('cashier.')->group(function (){

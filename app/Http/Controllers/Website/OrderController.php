@@ -3,13 +3,12 @@
 namespace App\Http\Controllers\Website;
 
 use App\Http\Controllers\Controller;
-use App\Models\Cart;
+use App\Http\Requests\Website\OrderRequest;
 use App\Models\Order;
 use App\Repositories\Api\CartRepository;
 use App\Repositories\Api\OrderRepository;
 use App\Services\Orders\OrderServices;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+
 
 class OrderController extends Controller
 {
@@ -28,7 +27,7 @@ class OrderController extends Controller
         return view('pages.website.order.myOrders' , compact('orders'));
     }
 
-    public function store(Request $request)
+    public function store(OrderRequest $request)
     {
         $order = $this->orderRepoistory->create(auth()->user()->id);
         return to_route('orders.checkout') ;

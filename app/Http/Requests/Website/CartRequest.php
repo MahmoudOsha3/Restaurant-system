@@ -15,7 +15,7 @@ class CartRequest extends FormRequest
     {
         $rules =  [
             'user_id' => 'nullable|exists:users,id',
-            'quantity' => 'required|numeric|min:1|max:30',
+            'quantity' => 'required|numeric|min:-1|max:30', // -1 removed
         ];
 
         if ($this->isMethod('post')) {

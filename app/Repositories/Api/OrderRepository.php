@@ -86,6 +86,17 @@ class OrderRepository implements OrderRepositoryInterface
         $order->delete() ;
     }
 
+    public function cahengeStatus($request , $order)
+    {
+        $request->validate([
+            'status' => 'required|in:pending,confirmed,preparing,ready,delivered,cancelled,completed'
+        ]);
+        $order = $order->update([
+            'status' => $request->status
+        ]) ;
+        return $order ;
+    }
+
     public function countOrders()
     {
         return Order::count() ;

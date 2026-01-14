@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Route;
 
         Route::prefix('user')->group(function(){
             Route::get('carts' , [CartController::class , 'index'])->name('carts.index');
+
             Route::post('order/store' , [OrderController::class , 'store'])->name('order.store');
             Route::get('orders' , [OrderController::class , 'orders'])->name('orders.checkout');
             Route::post('order/payment/{order_id}' , [PaymentController::class , 'pay'])->name('order.payment');

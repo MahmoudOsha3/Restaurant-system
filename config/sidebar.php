@@ -48,28 +48,20 @@ return [
         'permission' => 'cashier.show' ,
     ],
 
-    'call-center' => [
-        'route' => '/call-center' ,
-        'icon' => 'fas fa-plus-circle' ,
-        'label' => 'كول سنتر',
-        'active' => ['call-center']  ,
-        'permission' => 'cashier.view' ,
-    ],
-
-    'history-call-center' => [
-        'route' => '/call-center/history' ,
-        'icon' => 'fas fa-plus-circle' ,
-        'label' => 'سجل العمليات',
-        'active' => ['call-center/history']  ,
-        'permission' => 'cashier.show' ,
-    ] ,
-
     'admins' => [
         'route' => '/admins' ,
         'icon' => 'fas fa-users' ,
         'label' => 'المواظفين',
         'active' => ['admins']  ,
         'permission' => 'admin.view' ,
+    ] ,
+
+    'users' => [
+        'route' => '/users' ,
+        'icon' => 'fas fa-user-shield' ,
+        'label' => 'المستخدمين',
+        'active' => ['users']  ,
+        'permission' => 'user.view',
     ] ,
 
     'roles' => [

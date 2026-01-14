@@ -10,11 +10,14 @@ class CartRepository implements CartRepositoryInterface
 {
     public function getCarts($user_id = null)
     {
-        $carts = Cart::with('meal:id,title,price,image')
-            ->where('user_id' , $user_id)
-            ->orWhere('cookie_id' , Cart::getCookieId())->get() ;
-        return $carts ;
+        $query = Cart::with('meal:id,title,price,image');
+
+        if ($user_id) {
+            return $query->where('user_id', $user_id)->get();
+        }
+        return $query->where('cookie_id', Cart::getCookieId())->get();
     }
+
 
     public function create($data)
     {

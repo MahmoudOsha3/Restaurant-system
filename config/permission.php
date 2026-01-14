@@ -30,6 +30,11 @@ return [
     'admin.update' => 'Edit Admin' ,
     'admin.delete' => 'Delete Admin' ,
 
+    'user.view' => 'Users View' ,
+    'user.show' => 'User Show' ,
+    'user.update' => 'User Edit' ,
+    'user.delete' => 'User Delete' ,
+
     'role.view' => 'View Roles ' ,
     'role.create' => 'Create Role',
     'role.show' => 'Show Role' ,

@@ -145,7 +145,7 @@
 
         <div class="login-header">
             <i class="fas fa-user-shield"></i>
-            <h2>دخول المدير العام</h2>
+            <h2>شاشة تسجيل الدخول</h2>
             <p>سجل دخولك لإدارة النظام</p>
         </div>
 

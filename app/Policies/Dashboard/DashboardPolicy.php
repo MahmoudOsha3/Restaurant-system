@@ -59,4 +59,9 @@ class DashboardPolicy
     {
         return $admin->hasPermission('report.view') ;
     }
+
+    public function usersView(Admin $admin)
+    {
+        return $admin->hasPermission('user.view') ;
+    }
 }

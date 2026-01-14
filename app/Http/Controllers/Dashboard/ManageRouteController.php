@@ -57,4 +57,10 @@ class ManageRouteController extends Controller
         return view('pages.dashboard.reports.index');
     }
 
+    public function users()
+    {
+        // $this->authorize('usersView', Admin::class) ;
+        return view('pages.dashboard.users.index');
+    }
+
 }

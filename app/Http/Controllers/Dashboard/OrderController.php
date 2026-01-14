@@ -38,9 +38,11 @@ class OrderController extends Controller
         return $this->successApi($order  , 'Order created successfully') ;
     }
 
+    // update status of order
     public function update(Request $request, Order $order)
     {
-        //
+        $order = $this->orderRepository->cahengeStatus($request , $order);
+        return $this->successApi($order , 'Order updated sucessfully');
     }
 
     public function destroy(Order $order)

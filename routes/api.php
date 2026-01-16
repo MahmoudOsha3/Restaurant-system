@@ -5,7 +5,7 @@ use App\Http\Controllers\Dashboard\{AdminController, CategoryController , HomeCo
 use App\Http\Controllers\Website\CartController ;
 
 
-// Route::middleware('auth:sanctum')->group(function(){
+Route::middleware('auth:sanctum')->group(function(){
     Route::get('/' , [HomeController::class , 'index']) ;
     Route::apiResource('admins' , AdminController::class) ;
     Route::apiResource('category' , CategoryController::class);
@@ -17,5 +17,5 @@ use App\Http\Controllers\Website\CartController ;
     Route::apiResource('invoice' , InvoiceController::class) ;
     Route::apiResource('users' , UserController::class) ;
 
-// });
+});
 

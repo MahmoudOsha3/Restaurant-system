@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('phone' , 11)->nullable();
             $table->string('address')->nullable() ;
             $table->string('city')->nullable() ;
+            $table->enum('provider_type' , ['google' , 'guthub'])->nullable() ;
             $table->rememberToken();
             $table->timestamps();
         });

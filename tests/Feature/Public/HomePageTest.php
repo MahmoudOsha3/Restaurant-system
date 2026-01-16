@@ -18,7 +18,7 @@ class HomePageTest extends TestCase
     public function test_home_page_is_accssible()
     {
         $res = $this->get(route('home'))->assertStatus(200);
-        $res->assertViewIs('pages.website.home') ;
+        $res->assertViewIs('pages.website.home.index') ;
         $res->assertSee('login');
     }
 

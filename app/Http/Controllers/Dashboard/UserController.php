@@ -15,7 +15,7 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
-        $users = User::with('orders')->filter($request)->paginate(15);
+        $users = User::with('orders')->filter($request)->latest()->paginate(15);
         return $this->successApi($users , 'Users fetched successfully ');
     }
 

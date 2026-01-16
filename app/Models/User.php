@@ -18,7 +18,6 @@ class User extends Authenticatable
         'email',
         'password',
         'provider_id' ,
-        'provider_type',
         'address' ,
         'city' ,
         'phone' ,

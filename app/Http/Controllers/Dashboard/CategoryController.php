@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Dashboard\CategoryRequest;
 use App\Models\Category;
 use App\Traits\ManageApiTrait;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -11,6 +12,10 @@ use Illuminate\Http\Request;
 class CategoryController extends Controller
 {
     use ManageApiTrait ;
+
+    public function __construct() {
+        $this->authorizeResource(Category::class) ;
+    }
 
     // it can use CategoryRepo without controller but for only testing
     public function index()
@@ -27,28 +32,28 @@ class CategoryController extends Controller
 
     }
 
-    public function store(Request $request)
+    public function store(CategoryRequest $request)
     {
-        $category = Category::create($request->all());
-        return response()->json(['data' => $category] , 201) ;
+        $category = Category::create($request->validated()) ;
+        return $this->createApi($category ,'Category created successfully');
     }
 
-    public function show($category)
+    public function show(Category $category)
     {
-        $category = Category::with('meals')->where('id' , $category)->get();
+        $category = $category->load('meals');
         return response()->json(['data' => $category] , 200) ;
     }
 
-    public function update(Request $request, Category $category)
+    public function update(CategoryRequest $request, Category $category)
     {
-        $category->update($request->all()) ;
-        return response()->json(['data' => $category] , 200) ;
+        $category = $category->update($request->validated()) ;
+        return $this->successApi($category , 'Category updated successfully') ;
     }
 
     public function destroy(Category $category)
     {
         $category->delete();
-        return response()->json(['Msg' => 'Category is delete'] , 200) ;
+        return $this->successApi(null , 'Category deleted successfully') ;
     }
 
 }

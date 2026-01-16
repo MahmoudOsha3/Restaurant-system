@@ -2,11 +2,7 @@
 
 namespace Tests;
 
-use App\Models\Admin;
-use App\Models\Cart;
-use App\Models\Meal;
-use App\Models\Role;
-use App\Models\User;
+use App\Models\{Admin , Cart , Category , Meal , Role , User};
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
@@ -29,9 +25,9 @@ abstract class TestCase extends BaseTestCase
         return Admin::factory()->create($attribute);
     }
 
-    public function createRole(array $attribute = [])
+    public function createRole(array $attribute = [] , array $permissions = [])
     {
-        return Role::factory()->create($attribute);
+        return Role::factory()->withPermissions($permissions)->create($attribute);
     }
 
     public function createCart(array $attribute = [])
@@ -44,15 +40,21 @@ abstract class TestCase extends BaseTestCase
         return Meal::factory()->create($attribute);
     }
 
+    public function createCategory(array $attribute = [])
+    {
+        return Category::factory()->create($attribute);
+    }
+
     public function authenticated()
     {
         $user = User::factory()->create();
         return $this->actingAs($user);
     }
 
-    public function authenticatedAsAdmin($role_id = null)
+    public function authenticatedAsAdmin($roleName , array $allowedPermissions = [])
     {
-        $admin = Admin::factory()->create(['role_id' => $role_id ?? 1 ]);
+        $role = $this->createRole(['name' => $roleName] , $allowedPermissions);
+        $admin = Admin::factory()->create(['role_id' => $role->id ]);
         return $this->actingAs($admin);
     }
 }

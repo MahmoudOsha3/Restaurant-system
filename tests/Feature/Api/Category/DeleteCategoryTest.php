@@ -17,7 +17,7 @@ class DeleteCategoryTest extends TestCase
         $this->assertDatabaseHas('categories', ['title'=> 'Category 1']);
     }
 
-    public function test_unauthorize_admin_can_not_delete_category_exists_in_categories_table() : void
+    public function test_unauthorize_admin_can_not_delete_category_not_exists_in_categories_table() : void
     {
         $this->authenticatedAsAdmin('admin');
         $category = $this->createCategory(['title' => 'Category 1']) ;

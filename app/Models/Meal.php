@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Storage;
 class Meal extends Model
 {
     use HasFactory;
-    protected $fillable = ['title' , 'description', 'price' , 'compare_price' , 'image' , 'preparation_time' , 'category_id' ];
+    protected $fillable = ['title' , 'description', 'price' , 'compare_price' , 'image' , 'preparation_time' , 'category_id' , 'status' ];
     protected $hidden = ['created_at' , 'updated_at' , 'image'];
     protected $appends = ['image_url'];
 

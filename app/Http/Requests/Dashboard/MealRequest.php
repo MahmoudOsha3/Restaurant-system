@@ -25,6 +25,7 @@ class MealRequest extends FormRequest
             'price' => 'required|numeric' ,
             'compare_price' => 'nullable|numeric' ,
             'image' => 'required|image' ,
+            'status'=> 'nullable|in:active,inactive',
             'preparation_time' => 'required|integer' ,
             'category_id' => 'required|exists:categories,id'
         ];

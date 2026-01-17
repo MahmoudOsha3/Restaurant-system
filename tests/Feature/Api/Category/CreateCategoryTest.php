@@ -59,5 +59,5 @@ use RefreshDatabase , WithFaker ;
         $response->assertJsonStructure(['data' , 'msg']) ;
         $this->assertDatabaseHas('categories' , ['title' => 'Category 1' ]) ;
     }
-    
+
 }

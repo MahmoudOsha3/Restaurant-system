@@ -8,27 +8,28 @@ use App\Models\Meal;
 use App\Repositories\Api\MealRepository;
 use App\Traits\ManageApiTrait;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+
 
 class MealController extends Controller
 {
-    protected $meal ;
+    protected $mealRepository ;
     use ManageApiTrait ;
 
-    public function __construct(MealRepository $meal)
+    public function __construct(MealRepository $mealRepository)
     {
-        $this->meal = $meal;
-        // $this->authorizeResource(Meal::class);
+        $this->authorizeResource(Meal::class );
+        $this->mealRepository = $mealRepository;
     }
+
     public function index(Request $request)
     {
-        $meals = $this->meal->getAll($request) ;
+        $meals = $this->mealRepository->getAll($request) ;
         return $this->successApi($meals , 'The data was successfully extracted') ;
     }
 
     public function store(MealRequest $request)
     {
-        $meal = $this->meal->create($request->validated() , $request['_token']) ;
+        $meal = $this->mealRepository->create($request->validated() , $request['_token']) ;
         return $this->createApi($meal , 'Meal is created successfully') ;
     }
 
@@ -40,13 +41,13 @@ class MealController extends Controller
 
     public function update(MealRequest $request, Meal $meal)
     {
-        $meal = $this->meal->update($meal , $request->validated()) ;
+        $meal = $this->mealRepository->update($meal , $request->validated()) ;
         return $this->createApi($meal , 'Meal is updated successfully') ;
     }
 
     public function destroy(Meal $meal)
     {
-        $this->meal->delete($meal) ;
+        $this->mealRepository->delete($meal) ;
         return $this->successApi(null , 'Meal is deleted successfilly') ;
     }
 }

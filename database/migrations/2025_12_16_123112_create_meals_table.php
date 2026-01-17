@@ -20,7 +20,7 @@ return new class extends Migration
             $table->decimal('price') ;
             $table->decimal('compare_price')->nullable();
             $table->string('image') ;
-            $table->enum('status' , ['active' , 'inactive']);
+            $table->enum('status' , ['active' , 'inactive'])->default('active');
             $table->integer('preparation_time') ;
             $table->foreignId('category_id')->references('id')->on('categories')->onDelete('cascade') ;
             $table->timestamps();

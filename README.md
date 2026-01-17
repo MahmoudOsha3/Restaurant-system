@@ -1,142 +1,153 @@
 # 🍽️ Restaurant Management System
 
-نظام متكامل لإدارة المطاعم يوفّر **لوحة تحكم احترافية (Dashboard)** لإدارة جميع العمليات الداخلية، بالإضافة إلى **موقع إلكتروني** يتيح للمستخدمين طلب الطعام أونلاين، الدفع الإلكتروني، ومتابعة حالة الطلب بسهولة.
+A complete **Restaurant Management System** that provides a powerful **Admin Dashboard** for managing restaurant operations and a **User Website** that allows customers to order food online, pay electronically, and track their orders in real time.
 
-تم بناء النظام باستخدام **Laravel** مع الاعتماد على أفضل الممارسات في التصميم البرمجي (Design Patterns) لضمان الأداء العالي، الأمان، وقابلية التوسع.
+The system is built using **Laravel** and follows **clean architecture principles and design patterns** to ensure scalability, performance, and maintainability.
 
 ---
 
 ## 🚀 Project Overview
 
-يتكوّن النظام من جزأين رئيسيين:
+The system consists of two main parts:
 
-### 1️⃣ Dashboard (لوحة التحكم)
-مخصصة لإدارة:
-- المستخدمين والصلاحيات
-- الطلبات وحالاتها
-- الأقسام والوجبات
-- التقارير والإحصائيات
-- شاشة الكاشير
+### 1️⃣ Admin Dashboard
+Used to manage:
+- Users & permissions
+- Orders & order statuses
+- Categories & meals
+- Reports & statistics
+- Cashier system
 
-### 2️⃣ Website (واجهة المستخدم)
-مخصصة لـ:
-- عرض قائمة الطعام
-- إنشاء الطلبات أونلاين
-- الدفع الإلكتروني
-- متابعة حالة الطلب
-- تسجيل الدخول بسهولة عبر Social Login
+### 2️⃣ User Website
+Used by customers to:
+- Browse the food menu
+- Place orders online
+- Pay online
+- Track order status
+- Login easily using social accounts
 
 ---
 
-## 👥 Roles & Permissions
+## 👥 Roles & Permissions (RBAC)
 
-يعتمد النظام على **Role-Based Access Control (RBAC)** مع توزيع دقيق للصلاحيات:
+The system uses **Role-Based Access Control (RBAC)** with a clear separation of responsibilities:
 
 ### 🔑 Owner
-- إنشاء وتوزيع الصلاحيات
-- إضافة Admin / Data Entry / Cashier
-- التحكم الكامل في النظام
+- Create and manage roles & permissions
+- Add Admin / Data Entry / Cashier accounts
+- Full system control
 
 ### 🛠️ Admin
-- استقبال الطلبات من الموقع
-- تعديل حالات الطلبات (Pending / Preparing / Completed / Cancelled)
-- إنشاء مستخدمين ومنحهم صلاحيات Admin
-- متابعة التقارير اليومية
-- عرض الإحصائيات الكاملة للنظام
+- Receive and manage online orders
+- Update order statuses (Pending / Preparing / Completed / Cancelled)
+- Create and manage admin users
+- View daily reports
+- Access full system statistics
 
 ### 📝 Data Entry
-- CRUD للأقسام (Categories)
-- CRUD للوجبات (Meals)
-- متابعة الطلبات القادمة من الموقع
-- إنشاء تقارير يومية
-- عرض الإحصائيات الخاصة به
+- CRUD operations for Categories
+- CRUD operations for Meals
+- Monitor website orders
+- Generate daily reports
+- View personal statistics
 
 ### 💰 Cashier
-- فتح شاشة الكاشير
-- إنشاء الطلبات داخل المطعم
-- متابعة الطلبات التي قام بتنفيذها
-- البحث في الطلبات
-- طباعة فواتير الطلبات
+- Access cashier screen
+- Create in-restaurant orders
+- Track completed orders
+- Search through handled orders
+- Print order invoices
 
 ---
 
-## 🌐 Website Features (User Side)
+## 🌐 Website Features (Customer Side)
 
-- عرض قائمة الطعام
-- إنشاء طلب أونلاين
-- الدفع الإلكتروني
-- متابعة حالة الطلب في الوقت الحقيقي
-- تسجيل الدخول باستخدام:
+- View food menu
+- Place online orders
+- Online payment support
+- Real-time order tracking
+- Social login using:
   - Google
   - GitHub
-- تجربة استخدام سهلة وسريعة
-
+- User receive mail for confirm order created
+- Simple and user-friendly experience
 ---
 
 ## 💳 Online Payment Integration
 
-تم دمج بوابات دفع متعددة باستخدام:
+Integrated multiple payment gateways using clean architecture principles:
 
 - **Stripe**
 - **Paymob**
 
-مع تطبيق:
+Applied design patterns:
 - Factory Pattern
 - Strategy Pattern  
 
-مما يسمح بإضافة أي Payment Gateway جديد بسهولة بدون التأثير على الكود الحالي.
+This allows easy integration of additional payment gateways without modifying existing logic.
 
 ---
 
-## 🔔 Notifications System
+## 🔔 Notification System
 
-- عند إنشاء طلب جديد:
-  - يتم إرسال **Notification فوري إلى الـ Admin**
-- أنواع الإشعارات:
+- When a new order is created:
+  - An instant notification is sent to the Admin
+- Notification channels:
   - Database Notifications
-  - Real-time Notifications باستخدام **Pusher**
-- استخدام **Broadcasting** لإرسال الإشعارات لحظيًا
+  - Real-time Notifications using **Pusher**
+- Implemented using **Broadcasting**
 
 ---
 
-## ⚙️ Background Processing
+## ⚙️ Background Processing & Automation
 
-تم تحسين الأداء باستخدام:
+To improve performance and system reliability:
 
 - **Events & Listeners**
-  - عند إنشاء الطلب يتم إطلاق Event
-  - Listener مسؤول عن إرسال الإشعارات
+  - Order creation triggers an Event
+  - Listeners handle notifications and background logic
 - **Queues & Jobs**
-  - تنفيذ العمليات الثقيلة في الخلفية
+  - Heavy tasks are processed asynchronously
 - **Task Scheduling**
-  - حذف الطلبات غير المدفوعة بعد مدة زمنية محددة تلقائيًا
+  - Automatically deletes unpaid orders after a specific time period
+
+---
+
+## 🧪 API Testing
+
+- All RESTful APIs are tested using **PHPUnit**
+- Feature and unit tests are implemented to ensure:
+  - Authorization & permissions validation
+  - Correct API responses
+  - Business logic accuracy
+- Helps guarantee system stability and prevent regressions
 
 ---
 
 ## 🧠 Architecture & Design Patterns
 
-تم بناء المشروع باستخدام بنية قوية وقابلة للتوسع:
+The project follows a clean and scalable architecture:
 
 - Repository Pattern
 - Service Layer
 - Factory Pattern
 - Strategy Pattern
 
-مما يجعل الكود:
-- Clean
-- Maintainable
-- Testable
-- Scalable
+This results in:
+- Clean and readable code
+- Easy maintenance
+- High testability
+- Scalable structure
 
 ---
 
 ## 🔌 API-Driven Dashboard
 
-- لوحة التحكم بالكامل مبنية باستخدام **RESTful API**
-- الربط مع الواجهة الأمامية باستخدام:
+- The dashboard is fully powered by **RESTful APIs**
+- Frontend communication via:
   - AJAX
   - jQuery
-- فصل كامل بين الـ Backend والـ Frontend
+- Clear separation between backend and frontend logic
 
 ---
 
@@ -149,28 +160,32 @@
 - Stripe & Paymob
 - Pusher
 - AJAX & jQuery
-- Queue & Jobs
+- PHPUnit Testing
+- Queues & Jobs
 - Events & Listeners
-- Scheduler
+- Task Scheduler
 
 ---
 
 ## 📌 Key Features Summary
 
-- نظام صلاحيات متكامل
-- طلبات أونلاين + كاشير
-- دفع إلكتروني
-- إشعارات لحظية
-- تقارير وإحصائيات
-- بنية نظيفة وقابلة للتوسع
-- أداء عالي باستخدام Queues & Events
+- Advanced role & permission system
+- Online ordering & cashier system
+- Secure online payments
+- Real-time notifications
+- Mail Uisng MailGun
+- Reports & statistics
+- Background job processing
+- Fully tested RESTful APIs
+- Clean and scalable architecture
 
 ---
 
 ## 📬 Contact
 
-في حال وجود أي استفسار أو اقتراح:
+For any questions or suggestions:
 
 **Mahmoud Abdelrahim**  
 Backend Developer (Laravel)
 Email : mahmoudabdelrahim189@gmail.com
+Phone : 01201955377
